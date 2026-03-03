@@ -1,436 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Fisher Armstrong</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A living index of Fisher Armstrong’s work, ideas, and experiments in motion.">
+<meta charset="utf-8">
+<title>Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Ongoing experiments in motorsports, photography, software, and strange ideas.">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --ink: #111;
-      --muted: #555;
+<style>
+:root {
+  --ink: #161616;
+  --paper: #f4f1ea;
+  --muted: #5c5c5c;
 
-      --ahs: #d9642f;
-      --motor: #c9a800;
-      --photo: #f49c9c;
-      --tech: #2f6fb2;
-      --bob: #6b5b95;
+  --ahs: #d9642f;
+  --motor: #c9a800;
+  --photo: #e98d8d;
+  --tech: #2f6fb2;
+  --bob: #6d6c70;
+  --fs: #6bbf59;
 
-      --hero-bg: #2e2a36;
-      --hero-text: #f5f3ef;
-
-      --btn-bg: #111;
-      --btn-text: #f5f3ef;
-      --btn-hover: #444;
-    }
-
-    html { font-size: 17px; }
-
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, sans-serif;
-      color: var(--ink);
-      line-height: 1.6;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(0,0,0,0.03), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(0,0,0,0.025), transparent 45%),
-        repeating-linear-gradient(
-          0deg,
-          rgba(0,0,0,0.015),
-          rgba(0,0,0,0.015) 1px,
-          transparent 1px,
-          transparent 24px
-        ),
-        #f7f6f4;
-    }
-
-    h1, h2, h3, h4 { margin: 0; }
-
-    /* HERO BAND */
-    .hero-band {
-      background: var(--hero-bg);
-      color: var(--hero-text);
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .hero-band h1 {
-      font-family: "Playfair Display", serif;
-      font-size: 3rem;
-      margin-bottom: 0.5em;
-    }
-    .hero-band p {
-      font-size: 1.05rem;
-      max-width: 640px;
-      margin: 0 auto 1.5rem;
-    }
-    .hero-buttons {
-      margin-top: 1.5rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .hero-buttons a {
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    .hero-buttons a:hover {
-      background: var(--btn-hover);
-    }
-
-    /* MAIN GRID */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 56px 28px 72px;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 64px;
-    }
-    @media (max-width: 900px) {
-      main { grid-template-columns: 1fr; }
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 2px solid currentColor;
-    }
-    a:hover { opacity: 0.85; }
-
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { margin-bottom: 2.6rem; }
-
-
-    /* ----- SECONDARY BUTTON ROW ----- */
-.hero-secondary {
-  margin-top: 1rem;
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  --dark: #1c1c22;
+  --dark-2: #26262e;
 }
 
-/* softer, pill-like buttons — different vibe */
-.pill {
-  padding: 0.55rem 1.05rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.06);
-  color: var(--hero-text);
-  transition: transform 0.1s ease, background 0.2s ease;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.6;
 }
 
-.pill:hover {
-  background: rgba(255,255,255,0.12);
-  transform: translateY(-1px);
-}
+h1, h2 { margin: 0; }
 
-/* very subtle differentiation */
-.linkedin { border-color: rgba(255,255,255,0.45); }
-.ko-fi    { border-color: rgba(255,255,255,0.35); }
-.paypal   { border-color: rgba(255,255,255,0.30); }
+a { text-decoration: none; color: inherit; }
 
-    a.project {
-  font-weight: 600;
-  font-size: 1.1rem;
-  border-bottom: none; /* keep it cleaner */
-      }
-
-      /* Color the business names only */
-      .ahs   a.project { color: var(--ahs); }
-      .motor a.project { color: var(--motor); }
-      .photo a.project { color: var(--photo); }
-      .tech  a.project { color: var(--tech); }
-      .bob   a.project { color: var(--bob); }
-
-      li {
-  margin-bottom: 2.6rem;
-  padding-left: 12px;
-  border-left: 3px solid transparent;
-}
-
-.ahs   { border-left-color: var(--ahs); }
-.motor { border-left-color: var(--motor); }
-.photo { border-left-color: var(--photo); }
-.tech  { border-left-color: var(--tech); }
-.bob   { border-left-color: var(--bob); }
-
-
-    .desc {
-      margin-top: 0.45rem;
-      font-size: 0.95rem;
-      color: var(--muted);
-      max-width: 640px;
-    }
-
-    aside {
-      padding-left: 24px;
-      border-left: 1px solid rgba(0,0,0,0.15);
-    }
-
-    aside h2 {
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 4px;
-    }
-
-    .note {
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-    .note time {
-      display: block;
-      font-size: 0.75rem;
-      color: #777;
-      margin-bottom: 0.2rem;
-    }
-
-    .footer-band {
-      background: var(--hero-bg);
-      color: var(--hero-text);
-      padding: 40px 20px;
-      text-align: center;
-      margin-top: 5rem;
-      font-size: 0.85rem;
-    }
-
-    .version {
+/* VERSION TAG */
+.version {
   position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 1000;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  opacity: 0.85;
+  top: 14px;
+  right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
 }
 
+/* HERO */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 28px 30px;
+  gap: 16px;
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 
-    .home-button {
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      z-index: 1000;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      text-decoration: none;
-    }
+  background: url("hero.jpg") center/cover no-repeat;
+  color: #f0f0f0; /* light grey for readability */
+}
 
-.hero-divider {
-  margin: 1rem auto 0.5rem;
-  font-size: 0.8rem;
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* stronger dark overlay for contrast */
+  z-index: 0;
+}
+
+.hero h1,
+.hero p,
+.hero-dashboard {
+  position: relative;
+  z-index: 1; /* ensures text sits above overlay */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5); /* subtle shadow to pop against busy images */
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.hero p {
+  max-width: 550px;
+  font-size: 0.95rem;
+  margin: 0 auto;
+  color: #e0e0e0;
+}
+
+.hero-dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.dashboard-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.group-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
   letter-spacing: 0.08em;
   opacity: 0.7;
+  margin-bottom: 0.6rem;
 }
 
-/* Divider between Notes and Blog */
-.aside-divider {
-  height: 1px;
-  background: rgba(0,0,0,0.15);
-  margin: 1.8rem 0;
+.group-label.amber { color: #c9a800; }
+.group-label.green { color: #73c165; }
+.group-label.blue  { color: #2f6fb2; }
+
+.group-icons {
+  display: flex;
+  gap: 0.9rem;
 }
 
-/* Blog list styling */
-.post {
-  margin-bottom: 1.2rem;
-  font-size: 0.95rem;
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.post time {
-  display: block;
-  font-size: 0.75rem;
-  color: #777;
-  margin-bottom: 0.15rem;
-}
-/* Divider (already suggested earlier) */
-.aside-divider {
-  height: 1px;
-  background: rgba(0,0,0,0.15);
-  margin: 1.8rem 0;
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
-/* Blog section layout */
-.post {
-  margin-bottom: 1.4rem;
-  font-size: 0.95rem;
+.icon-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
-/* Make the newest/featured post feel larger */
-.post.featured {
-  padding: 8px 0;
+/* MAIN */
+main {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 70px 28px 90px;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 70px;
 }
 
-.post-title {
-  display: block;
+@media (max-width: 900px) {
+  main { grid-template-columns: 1fr; }
+}
+
+/* PROJECT LIST */
+ul { list-style: none; padding: 0; margin: 0; }
+
+li {
+  padding: 18px;
+  margin-bottom: 2rem;
+  border-left: 4px solid;
+  border-radius: 8px;
+  transition: transform 0.15s ease;
+}
+
+li:hover { transform: translateX(6px); }
+
+.ahs   { border-color: var(--ahs); background: rgba(217,100,47,0.06); }
+.motor { border-color: var(--motor); background: rgba(201,168,0,0.06); }
+.photo { border-color: var(--photo); background: rgba(233,141,141,0.08); }
+.tech  { border-color: var(--tech); background: rgba(47,111,178,0.08); }
+.bob   { border-color: var(--bob); background: rgba(109,108,112,0.08); }
+.fs    { border-color: var(--fs); background: rgba(107,191,89,0.08); }
+
+.project {
   font-weight: 600;
-  margin-bottom: 0.2rem;
-  border-bottom: none; /* cleaner look in sidebar */
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+  display: inline-block;
 }
 
-.post-excerpt {
-  font-size: 0.9rem;
+.desc {
+  font-size: 0.95rem;
   color: var(--muted);
-  line-height: 1.45;
+  max-width: 600px;
 }
 
-/* Archive link at bottom */
-.blog-archive {
-  margin-top: 0.8rem;
-  font-size: 0.9rem;
+/* ASIDE */
+aside {
+  border-left: 1px solid rgba(0,0,0,0.15);
+  padding-left: 24px;
 }
 
-.blog-archive a {
-  border-bottom: 1px solid currentColor;
+aside h2 {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
 }
 
+.internal-grid {
+  display: grid;
+  gap: 1.4rem;
+}
 
-  </style>
+.internal-card {
+  display: block;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.internal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.card-title { font-weight: 600; font-size: 0.95rem; }
+
+.card-desc { font-size: 0.85rem; color: var(--muted); }
+
+.card-tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.65rem;
+  padding: 3px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tag-amber { background: rgba(201,168,0,0.15); color: #8a7300; }
+.tag-green { background: rgba(107,191,89,0.15); color: #2e6a1f; }
+.tag-blue  { background: rgba(47,111,178,0.15); color: #1d4f86; }
+.tag-gray  { background: rgba(109,108,112,0.15); color: #444; }
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 0.85rem;
+}
+
+.dashboard-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0,0,0,0.35); /* semi-transparent box */
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.dashboard-group:hover {
+  background: rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+</style>
 </head>
-
 <body>
 
-<a class="home-button" href="index.html">← Home</a>
+<div class="version">build 3.3.1</div>
 
-<a class="home-button" href="index.html">← Home</a>
-<div class="version">v3.1.26</div>
-
-
-<header class="hero-band">
-  <h1>Hi, I’m Fisher.</h1>
-  <p> This is a snapshot of what I’m working on right now - some of it’s finished, some of it’s messy, and most of it’s still in progress. If you’re curious, you’re in the right place. </p>
-
-<div class="hero-buttons">
-  <a href="mailto:VincentFisherArmstrong@gmail.com">Email</a>
-  <a href="https://www.instructables.com/member/fisherarmstrong/">Instructables</a>
-  <a href="https://github.com/Silly-Goose-Inc">GitHub</a>
-</div>
-
-<div class="hero-divider">— connect —</div>
+<header class="hero">
+  <h1>Fisher Armstrong</h1>
+  <p>Racing as research. Cameras as archive. Software as infrastructure. Everything here is a work-in-progress.</p>
 
 
-<div class="hero-secondary">
-  <a class="pill linkedin" href="https://www.linkedin.com/in/fisher-armstrong-b8a26a318/" target="_blank">LinkedIn</a>
-  <a class="pill ko-fi" href="https://ko-fi.com/fisherarmstrong" target="_blank">Ko-fi</a>
-  <a class="pill paypal" href="https://paypal.me/ActivismPhotography" target="_blank">PayPal</a>
-</div>
+  
+  <div class="hero-dashboard">
+    <!-- Contact -->
+    <div class="dashboard-group">
+      <span class="group-label amber">Contact</span>
+      <div class="group-icons">
+        <a class="icon-btn amber" href="mailto:VincentFisherArmstrong@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 6l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <a class="icon-btn amber" href="https://www.linkedin.com" target="_blank">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="4" height="16" fill="currentColor"/><rect x="10" y="10" width="4" height="10" fill="currentColor"/><rect x="14" y="10" width="6" height="6" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
 
+    <!-- Support -->
+    <div class="dashboard-group">
+      <span class="group-label green">Support</span>
+      <div class="group-icons">
+        <a class="icon-btn green" href="https://ko-fi.com/fisherarmstrong" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M3 6h15v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M18 7h2a3 3 0 0 1 0 6h-2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+        <a class="icon-btn green" href="https://paypal.me/ActivismPhotography" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M6 3h9a5 5 0 0 1 0 10H9l-1 8H4z" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Work -->
+    <div class="dashboard-group">
+      <span class="group-label blue">Work</span>
+      <div class="group-icons">
+        <a class="icon-btn blue" href="https://github.com/Silly-Goose-Inc" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 1a11 11 0 0 0-3.5 21.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.4 1.2a11.6 11.6 0 0 1 6.2 0c2.4-1.5 3.4-1.2 3.4-1.2.6 1.7.2 3 .1 3.3.8.9 1.2 2 1.2 3.3 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3c0 .3.2.7.8.6A11 11 0 0 0 12 1z" fill="currentColor"/></svg>
+        </a>
+        <a class="icon-btn blue" href="https://www.instructables.com/member/fisherarmstrong/" target="_blank">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
 </header>
 
 <main>
-  <section>
-    <ul>
-      <li class="ahs">
-        <a class="project" href="https://www.appalachianhillclimb.com">
-          Appalachian Hillclimb Series
-        </a>
-        <div class="desc">
-          A regional hillclimb championship built around safety, accessibility, 
-          and the strange joy of driving up mountains really fast — together.
-        </div>
-      </li>
-
-      <li class="motor">
-        <a class="project" href="https://activismmotorsprts.netlify.app">
-          Activism Motorsports
-        </a>
-        <div class="desc">
-          Grassroots racing treated like a rolling laboratory — part competition, 
-          part engineering experiment, all curiosity.
-        </div>
-      </li>
-
-      <li class="photo">
-        <a class="project" href="https://activism-photography.netlify.app">
-          Activism Photography
-        </a>
-        <div class="desc">
-          Documentary work about people, movements, and motorsports culture — 
-          where the camera is as much a notebook as it is a tool.
-        </div>
-      </li>
-
-      <li class="tech">
-        <a class="project" href="https://fishtanktech.netlify.app">
-          FishTankTech
-        </a>
-        <div class="desc">
-          The quiet machinery behind the scenes: software, systems, and tools 
-          that make everything else possible.
-        </div>
-      </li>
-
-      <li class="bob">
-        <a class="project" href="https://bobandrobert.netlify.app">
-          Bob &amp; Robert
-        </a>
-        <div class="desc">
-          An experimental archive and publishing project — part artwork, part 
-          history, part ongoing conversation.
-        </div>
-      </li>
-    </ul>
-  </section>
+<section>
+  <h2 class="section-title">Projects</h2>
+  <p class="section-intro">Long-running products. #DoMore-DoBetter</p>
+  <ul>
+    <li class="ahs"><a class="project" href="https://www.appalachianhillclimb.com">Appalachian Hillclimb Series</a><div class="desc">Organized velocity in the mountains. Safety first. Ego second.</div></li>
+    <li class="motor"><a class="project" href="https://activismmotorsprts.netlify.app">Activism Motorsports</a><div class="desc">Cones, spreadsheets, tire data, theory. Racing treated like lab work.</div></li>
+    <li class="photo"><a class="project" href="https://activism-photography.netlify.app">Activism Photography</a><div class="desc">Documenting people and movements so memory has structure and weight.</div></li>
+    <li class="tech"><a class="project" href="https://fishtanktech.netlify.app">FishTankTech</a><div class="desc">Durable software. Systems that don’t collapse under real-world use.</div></li>
+    <li class="bob"><a class="project" href="https://bobandrobert.netlify.app">Bob & Robert</a><div class="desc">Experimental archive. Publishing as curiosity exercise.</div></li>
+    <li class="fs"><a class="project" href="https://fishstixink.netlify.app">FishSTIX Creatives</a><div class="desc">Stickers, graphics, small-batch visual experiments.</div></li>
+  </ul>
+</section>
 
 <aside>
-  <h2>Notes</h2>
-  <div class="note">
-    <time>Jan 2026</time>
-    Thinking about hills not as categories, but as a continuous spectrum.
-  </div>
-  <div class="note">
-    <time>Dec 2025</time>
-    Trying to understand why I’d rather build tools than dashboards.
-  </div>
-
-  <h2>Blog</h2>
-
-  <div class="post featured">
-    <time>Feb 2026</time>
-    <a href="/blog/blog.html/" class="post-title">
-      Why I Build Tools Instead of Dashboards
-    </a>
-    <div class="post-excerpt">
-      On craft, friction, and why messy instruments often teach more than polished interfaces.
-    </div>
-  </div>
-
-  <div class="blog-archive">
-    <a href="/blog/blog.html">View all posts →</a>
-  </div>
+<h2>Internal System</h2>
+<div class="internal-grid">
+  <a class="internal-card" href="/beliefs.html">
+    <div class="card-top"><span class="card-title">Beliefs</span><span class="card-tag tag-amber">Core</span></div>
+    <div class="card-desc">Operating principles. Trade-offs I accept. Trade-offs I reject.</div>
+  </a>
+  <a class="internal-card" href="/products.html">
+    <div class="card-top"><span class="card-title">Products</span><span class="card-tag tag-green">Live</span></div>
+    <div class="card-desc">Objects and tools that made it out of prototype phase.</div>
+  </a>
+  <a class="internal-card" href="/now.html">
+    <div class="card-top"><span class="card-title">Now</span><span class="card-tag tag-blue">Active</span></div>
+    <div class="card-desc">What I’m building or testing this month.</div>
+  </a>
+  <a class="internal-card" href="/lab-notes.html">
+    <div class="card-top"><span class="card-title">Lab Notes</span><span class="card-tag tag-gray">Raw</span></div>
+    <div class="card-desc">Build logs, fragments, half-formed ideas.</div>
+  </a>
+</div>
+<div class="micro-note">mode: Iterative<br>system uptime: Negligiable</div>
 </aside>
-
-
 </main>
 
-<footer class="footer-band">
-  © 2026 Fisher Armstrong<br>
-  Designed and maintained by FishTankTech
+<footer>
+  © 2026 Fisher Armstrong <br>
+  Built & Maintained by @FishTankTech
 </footer>
-
 </body>
 </html>
