@@ -5,28 +5,28 @@
 <title>Fisher Armstrong</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Ongoing experiments in motorsports, photography, software, and strange ideas.">
-
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+ 
 <style>
 :root {
   --ink: #161616;
   --paper: #f4f1ea;
   --muted: #5c5c5c;
-
+ 
   --ahs: #d9642f;
   --motor: #c9a800;
   --photo: #e98d8d;
   --tech: #2f6fb2;
   --bob: #6d6c70;
   --fs: #6bbf59;
-
+ 
   --dark: #1c1c22;
   --dark-2: #26262e;
 }
-
+ 
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -39,11 +39,11 @@ body {
   color: var(--ink);
   line-height: 1.6;
 }
-
+ 
 h1, h2 { margin: 0; }
-
+ 
 a { text-decoration: none; color: inherit; }
-
+ 
 /* VERSION TAG */
 .version {
   position: fixed;
@@ -57,7 +57,7 @@ a { text-decoration: none; color: inherit; }
   border-radius: 4px;
   letter-spacing: 0.05em;
 }
-
+ 
 /* HERO */
 .hero {
   display: flex;
@@ -68,53 +68,62 @@ a { text-decoration: none; color: inherit; }
   gap: 16px;
   position: relative;
   border-bottom: 1px solid rgba(0,0,0,0.08);
-
-  background: url("hero.jpg") center/cover no-repeat;
-  color: #f0f0f0; /* light grey for readability */
+ 
+  background: url("photos/hero.jpg") center/cover no-repeat;
+  color: #f0f0f0;
 }
-
+ 
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5); /* stronger dark overlay for contrast */
+  background: rgba(0,0,0,0.5);
   z-index: 0;
 }
-
+ 
 .hero h1,
 .hero p,
 .hero-dashboard {
   position: relative;
-  z-index: 1; /* ensures text sits above overlay */
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5); /* subtle shadow to pop against busy images */
+  z-index: 1;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
-
+ 
 .hero h1 {
   font-size: 2.4rem;
   line-height: 1.1;
   color: #fff;
 }
-
+ 
 .hero p {
   max-width: 550px;
   font-size: 0.95rem;
   margin: 0 auto;
   color: #e0e0e0;
 }
-
+ 
 .hero-dashboard {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
 }
-
+ 
 .dashboard-group {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: rgba(0,0,0,0.35);
+  padding: 12px 16px;
+  border-radius: 12px;
 }
-
+ 
+.dashboard-group:hover {
+  background: rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+ 
 .group-label {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;
@@ -123,16 +132,16 @@ a { text-decoration: none; color: inherit; }
   opacity: 0.7;
   margin-bottom: 0.6rem;
 }
-
+ 
 .group-label.amber { color: #c9a800; }
 .group-label.green { color: #73c165; }
 .group-label.blue  { color: #2f6fb2; }
-
+ 
 .group-icons {
   display: flex;
   gap: 0.9rem;
 }
-
+ 
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -144,19 +153,19 @@ a { text-decoration: none; color: inherit; }
   background: rgba(255,255,255,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+ 
 .icon-btn svg {
   width: 20px;
   height: 20px;
   fill: currentColor;
 }
-
+ 
 .icon-btn:hover {
   background: rgba(255,255,255,0.15);
   transform: translateY(-4px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
-
+ 
 /* MAIN */
 main {
   max-width: 1050px;
@@ -166,62 +175,92 @@ main {
   grid-template-columns: 1fr 280px;
   gap: 70px;
 }
-
+ 
 @media (max-width: 900px) {
   main { grid-template-columns: 1fr; }
 }
-
+ 
 /* PROJECT LIST */
 ul { list-style: none; padding: 0; margin: 0; }
-
+ 
 li {
   padding: 18px;
   margin-bottom: 2rem;
   border-left: 4px solid;
   border-radius: 8px;
   transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-
+ 
 li:hover { transform: translateX(6px); }
-
+ 
 .ahs   { border-color: var(--ahs); background: rgba(217,100,47,0.06); }
 .motor { border-color: var(--motor); background: rgba(201,168,0,0.06); }
 .photo { border-color: var(--photo); background: rgba(233,141,141,0.08); }
 .tech  { border-color: var(--tech); background: rgba(47,111,178,0.08); }
 .bob   { border-color: var(--bob); background: rgba(109,108,112,0.08); }
 .fs    { border-color: var(--fs); background: rgba(107,191,89,0.08); }
-
+ 
+.project-text { flex: 1; }
+ 
 .project {
   font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 0.4rem;
   display: inline-block;
 }
-
+ 
 .desc {
   font-size: 0.95rem;
   color: var(--muted);
   max-width: 600px;
 }
-
+ 
+.project-email {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.1);
+  color: var(--muted);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+ 
+.project-email:hover {
+  background: rgba(0,0,0,0.13);
+  transform: translateY(-2px);
+}
+ 
+.project-email svg {
+  width: 18px;
+  height: 18px;
+}
+ 
 /* ASIDE */
 aside {
   border-left: 1px solid rgba(0,0,0,0.15);
   padding-left: 24px;
 }
-
+ 
 aside h2 {
   font-size: 0.85rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
-
+ 
 .internal-grid {
   display: grid;
   gap: 1.4rem;
 }
-
+ 
 .internal-card {
   display: block;
   padding: 1rem;
@@ -230,23 +269,23 @@ aside h2 {
   border: 1px solid rgba(0,0,0,0.08);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-
+ 
 .internal-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
-
+ 
 .card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 }
-
+ 
 .card-title { font-weight: 600; font-size: 0.95rem; }
-
+ 
 .card-desc { font-size: 0.85rem; color: var(--muted); }
-
+ 
 .card-tag {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.65rem;
@@ -255,12 +294,12 @@ aside h2 {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-
+ 
 .tag-amber { background: rgba(201,168,0,0.15); color: #8a7300; }
 .tag-green { background: rgba(107,191,89,0.15); color: #2e6a1f; }
 .tag-blue  { background: rgba(47,111,178,0.15); color: #1d4f86; }
 .tag-gray  { background: rgba(109,108,112,0.15); color: #444; }
-
+ 
 /* FOOTER */
 footer {
   background: var(--dark);
@@ -269,39 +308,27 @@ footer {
   padding: 50px 20px;
   font-size: 0.85rem;
 }
-
-.dashboard-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(0,0,0,0.35); /* semi-transparent box */
-  padding: 12px 16px;
-  border-radius: 12px;
-}
-
-.dashboard-group:hover {
-  background: rgba(0,0,0,0.5);
-  transform: translateY(-2px);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
 </style>
 </head>
 <body>
-
-<div class="version">build 3.3.1</div>
-
+ 
+<div class="version">build 11.4.6</div>
+ 
 <header class="hero">
   <h1>Fisher Armstrong</h1>
-  <p>Racing as research. Cameras as archive. Software as infrastructure. Everything here is a work-in-progress.</p>
-
-
+    <p>"Profesional" Do-er Of Things. 
+    <br> Nothing Is Ever Finished - Only Abandoned. 
+    <br><br>I Miss you, Dad. I Love you, Christina.</p>
+ 
   
   <div class="hero-dashboard">
+ 
+ 
     <!-- Contact -->
     <div class="dashboard-group">
       <span class="group-label amber">Contact</span>
       <div class="group-icons">
-        <a class="icon-btn amber" href="mailto:VincentFisherArmstrong@gmail.com">
+        <a class="icon-btn amber" href="mailto:assortednonsense@airmail.cc">
           <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 6l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
         <a class="icon-btn amber" href="https://www.linkedin.com" target="_blank">
@@ -309,7 +336,8 @@ footer {
         </a>
       </div>
     </div>
-
+ 
+ 
     <!-- Support -->
     <div class="dashboard-group">
       <span class="group-label green">Support</span>
@@ -322,7 +350,8 @@ footer {
         </a>
       </div>
     </div>
-
+ 
+ 
     <!-- Work -->
     <div class="dashboard-group">
       <span class="group-label blue">Work</span>
@@ -337,44 +366,86 @@ footer {
     </div>
   </div>
 </header>
-
+ 
 <main>
 <section>
   <h2 class="section-title">Projects</h2>
-  <p class="section-intro">Long-running products. #DoMore - #DoBetter</p>
+  <p class="section-intro">My Life, Destilled Into Sections. Learn More Below:</p>
   <ul>
-    <li class="ahs"><a class="project" href="https://www.appalachianhillclimb.com">Appalachian Hillclimb Series</a><div class="desc">Organized velocity in the mountains. Safety first. Ego second.</div></li>
-    <li class="motor"><a class="project" href="https://activismmotorsprts.netlify.app">Activism Motorsports</a><div class="desc">Cones, spreadsheets, tire data, theory. Racing treated like lab work.</div></li>
-    <li class="photo"><a class="project" href="https://activism-photography.netlify.app">Activism Photography</a><div class="desc">Documenting people and movements so memory has structure and weight.</div></li>
-    <li class="tech"><a class="project" href="https://fishtanktech.netlify.app">FishTankTech</a><div class="desc">Durable software. Systems that don’t collapse under real-world use.</div></li>
-    <li class="bob"><a class="project" href="https://bobandrobert.netlify.app">Bob & Robert</a><div class="desc">Experimental archive. Publishing as curiosity exercise.</div></li>
-    <li class="fs"><a class="project" href="https://fishstixink.netlify.app">FishSTIX Creatives</a><div class="desc">Stickers, graphics, small-batch visual experiments.</div></li>
-  </ul>
-</section>
 
+    <li class="ahs">
+      <div class="project-text">
+        <a class="project" href="https://www.appalachianhillclimb.com">Appalachian Hillclimb Series</a>
+        <div class="desc">Spreading Our Love Of Burnouts With Appalachia!!!</div> </div>
+          <a class="project-email" href="mailto:AppalachianHillclimb@gmail.com" title="AHS Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a> </li>
+ 
+    <li class="motor">
+      <div class="project-text">
+        <a class="project" href="https://activismmotorsprts.netlify.app">ActivismMotorsports</a>
+        <div class="desc">Development, Fabrication, And Racing (occasionally good).</div> </div>
+          <a class="project-email" href="mailto:ActivismMotorsports@gmail.com" title="AM Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a> </li>
+    
+    <li class="photo">
+      <div class="project-text">
+        <a class="project" href="https://activismphotography.netlify.app">ActivismPhotography</a>
+        <div class="desc">Documenting So As To Not Forget - Started With #828Strong</div> </div>
+          <a class="project-email" href="mailto:ActivismPhotography@gmail.com" title="AP Email">
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a> </li>
+    
+    <li class="tech">
+      <div class="project-text">
+        <a class="project" href="https://fishtanktech.netlify.app">FishTankTech</a>
+        <div class="desc">"Durable" software. Systems that Feel Like A Good Idea In The Moment.</div> </div>
+          <a class="project-email" href="mailto:MyFishTankTech@gmail.com" title="FTT Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a> </li>
+    
+    <li class="bob">
+      <div class="project-text">
+        <a class="project" href="https://bobandrobert.netlify.app">Bob && Robert</a>
+        <div class="desc">The Estate: Cremean, and De Lavergne - Concentrated.</div> </div>
+           <a class="project-email" href="mailto:TheCremeanArchives@gmail.com" title="BnR Email">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a> </li>
+    
+    <li class="fs">
+      <div class="project-text">
+        <a class="project" href="https://fishstixink.netlify.app">FishSTIX Creatives</a>
+        <div class="desc">Stickers, Graphics, And Assorted Small-Batch Visual Experiments.</div> </div>
+          <a class="project-email" href="mailto:FishStixInk@gmail.com" title="FSC Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 6 8-6"/></svg> </a>  </li>
+  
+      </ul>
+</section>
+ 
 <aside>
 <h2>Internal System</h2>
 <div class="internal-grid">
   <a class="internal-card" href="/beliefs.html">
-    <div class="card-top"><span class="card-title">Beliefs</span><span class="card-tag tag-amber">Core</span></div>
+    <div class="card-top"><span class="card-title">Beliefs</span><span class="card-tag tag-purple">Core</span></div>
     <div class="card-desc">Operating principles. Trade-offs I accept. Trade-offs I reject.</div>
   </a>
-  <a class="internal-card" href="/products.html">
-    <div class="card-top"><span class="card-title">Products</span><span class="card-tag tag-green">Live</span></div>
-    <div class="card-desc">Objects and tools that made it out of prototype phase.</div>
+  <a class="internal-card" href="blog/blog.html">
+    <div class="card-top"><span class="card-title">Blog</span><span class="card-tag tag-purple">Live</span></div>
+    <div class="card-desc">The Ramblings Of A Clinicly Insane Talapia.</div>
   </a>
-  <a class="internal-card" href="/now.html">
-    <div class="card-top"><span class="card-title">Now</span><span class="card-tag tag-blue">Active</span></div>
-    <div class="card-desc">What I’m building or testing this month.</div>
+  <a class="internal-card" href="now.html">
+    <div class="card-top"><span class="card-title">Now</span><span class="card-tag tag-purple">Active</span></div>
+    <div class="card-desc">What I'm building or testing this month.</div>
   </a>
-  <a class="internal-card" href="/lab-notes.html">
-    <div class="card-top"><span class="card-title">Lab Notes</span><span class="card-tag tag-gray">Raw</span></div>
+  <a class="internal-card" href="lab-notes.html">
+    <div class="card-top"><span class="card-title">Lab Notes</span><span class="card-tag tag-purple">Raw</span></div>
     <div class="card-desc">Build logs, fragments, half-formed ideas.</div>
+  </a>
+  <div class="internal-grid">
+  <a class="internal-card" href="/stack.html">
+    <div class="card-top"><span class="card-title">My "Stack"</span><span class="card-tag tag-purple">External</span></div>
+    <div class="card-desc">What I use, and why it's overly complex.</div>
   </a>
 </div>
 </aside>
 </main>
-
+ 
 <footer>
   © 2026 Fisher Armstrong <br>
   Built & Maintained by @FishTankTech

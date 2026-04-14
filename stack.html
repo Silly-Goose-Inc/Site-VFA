@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Uses / Stack — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The gear, software, cars, and tools Fisher Armstrong actually runs.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #161616;
+  --paper: #f4f1ea;
+  --muted: #5c5c5c;
+
+  --photo:  #e98d8d;
+  --motor:  #c9a800;
+  --tech:   #2f6fb2;
+  --hw:     #6bbf59;
+
+  --dark:   #1c1c22;
+  --dark-2: #26262e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+/* VERSION */
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+/* PAGE HEADER */
+.page-header {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.page-header .subtitle {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  margin: 0;
+}
+
+/* LAYOUT */
+.layout {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 52px 28px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* SECTION */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.6rem;
+}
+
+.section-label h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.section-label .accent-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+}
+
+.dot-photo { background: var(--photo); }
+.dot-motor { background: var(--motor); }
+.dot-tech  { background: var(--tech);  }
+.dot-hw    { background: var(--hw);    }
+
+/* ITEM */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  align-items: baseline;
+}
+
+.item:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
+
+@media (max-width: 560px) {
+  .item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+.item-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  padding-top: 2px;
+}
+
+.item-content {}
+
+.item-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.item-name a:hover { text-decoration: underline; }
+
+.item-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* CAR SUBSECTION */
+.car-block {
+  border-left: 3px solid rgba(0,0,0,0.08);
+  padding-left: 18px;
+  margin-bottom: 32px;
+}
+
+.car-block:last-child { margin-bottom: 0; }
+
+.car-title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.car-title em {
+  font-style: normal;
+  color: var(--ink);
+}
+
+/* SPEC TAGS */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.spec-tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.06);
+  color: #444;
+  letter-spacing: 0.04em;
+}
+
+.spec-tag.amber { background: rgba(201,168,0,0.13); color: #7a6100; }
+.spec-tag.red   { background: rgba(190,40,40,0.1);  color: #7a1010; }
+.spec-tag.blue  { background: rgba(47,111,178,0.1); color: #1a437a; }
+.spec-tag.green { background: rgba(107,191,89,0.12);color: #2a6b18; }
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="version">build 11.4.6</div>
+
+<div class="page-header">
+  <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>uses</p>
+  <h1>Uses / Stack</h1>
+  <p class="subtitle">The gear, software, cars, and tools I actually run. Opinions included whether you asked or not.</p>
+</div>
+<hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
+
+<div class="layout">
+
+  <!-- ── PHOTOGRAPHY ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-photo"></span>
+      <h2>Photography / Camera Kit</h2>
+    </div>
+    <div class="item-list">
+
+      <div class="item">
+        <span class="item-label">Bodies</span>
+        <div class="item-content">
+          <div class="item-name">Canon EOS Rebel T3i &amp; R6 Mk I</div>
+          <p class="item-note">The T3i is a workhorse that refuses to die — great for situations where you'd rather not risk the good body. The R6 is where the serious work happens: IBIS and the autofocus system are genuinely hard to argue with for event and motorsport shooting.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Lenses</span>
+        <div class="item-content">
+          <div class="item-name">75-300mm · 18-55mm · 50mm f/1.8</div>
+          <p class="item-note">The 75-300 covers pit lane to apex. The 18-55 handles everything close and environmental. The 50mm stays on a body when the shot is about a person, not a vehicle — it forces better framing decisions than a zoom will.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Carry System</span>
+        <div class="item-content">
+          <div class="item-name">Peak Design — All In</div>
+          <p class="item-note">Leash, Slide, Slide Lite, Cuff, and the Everyday Backpack. PD's ecosystem is expensive to buy into and nearly impossible to leave once you do. The capture clip has prevented more dropped shots than any other single piece of gear I own.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Storage</span>
+        <div class="item-content">
+          <div class="item-name">SanDisk Gold 256GB (×10) · SanDisk 2TB SSDs (×4)</div>
+          <p class="item-note">Ten cards means never formatting in the field — cards are the cheapest insurance against a bad import. The four 2TB SSDs form a working archive; nothing gets deleted until it's in at least two places.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Editing</span>
+        <div class="item-content">
+          <div class="item-name">Lightroom + Darktable · Photoshop + GIMP</div>
+          <p class="item-note">Lightroom for speed when on deadline; Darktable when I want to stay in the open-source lane. Photoshop for compositing work where GIMP's layer handling still falls short — I use both less than I used to.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── MOTORSPORTS ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-motor"></span>
+      <h2>Motorsports / Car Setup</h2>
+    </div>
+
+    <!-- NC Miata -->
+    <div class="car-block">
+      <p class="car-title">Targa, HPDE &amp; AutoX — <em>2009 Mazda MX-5 Miata (NC)</em></p>
+      <div class="item-list">
+        <div class="item">
+          <span class="item-label">Suspension</span>
+          <div class="item-content">
+            <div class="item-name">Koni Yellows</div>
+            <p class="item-note">The right answer for a street-to-course car. Enough adjustment to be useful, durable enough that you stop thinking about them — which is the point.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Tires</span>
+          <div class="item-content">
+            <div class="item-name">Falken Ziex</div>
+            <p class="item-note">A reasonable street tire that doesn't embarrass itself at an event. Not a dedicated competition compound, but the NC doesn't need one to be fun.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Safety</span>
+          <div class="item-content">
+            <div class="item-name">NC HardDog Bar · RaceQuip 5pt</div>
+            <div class="tag-row">
+              <span class="spec-tag amber">Harness</span>
+              <span class="spec-tag">Roll Bar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RX-8 -->
+    <div class="car-block">
+      <p class="car-title">Hillclimb / Track — <em>2006 Mazda RX-8</em></p>
+      <div class="item-list">
+        <div class="item">
+          <span class="item-label">Suspension</span>
+          <div class="item-content">
+            <div class="item-name">Öhlins (Track Spec)</div>
+            <p class="item-note">Öhlins on a rotary hillclimb car is exactly as serious as it sounds. The platform rewards the investment — the RX-8 chassis wants to be set up properly more than almost any other car at this price point.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Tires</span>
+          <div class="item-content">
+            <div class="item-name">Vitour P1X · Bridgestone RE71R · Hoosier A7 (325s)</div>
+            <p class="item-note">Three compounds for three contexts. The A7s are the serious tire — the 325 width is a deliberate statement about corner exit. Hoosiers reward a smooth driver and punish a lazy one.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Brakes</span>
+          <div class="item-content">
+            <div class="item-name">Brembos + Hawk Track Day Pads</div>
+            <p class="item-note">The Hawk pads operate in a temperature window that rewards proper warm-up. Brembo hardware underneath means the limiting factor is always driver technique, not the calipers.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Safety / Cage</span>
+          <div class="item-content">
+            <div class="item-name">Custom Pikes Peak Spec Cage by Victory Fabrications · Momo 6pt</div>
+            <div class="tag-row">
+              <span class="spec-tag red">Full Cage</span>
+              <span class="spec-tag amber">6pt Harness</span>
+              <span class="spec-tag">Custom Fab</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Data</span>
+          <div class="item-content">
+            <div class="item-name">Pi-Powered Data Loggers</div>
+            <p class="item-note">The onboard Pi stack is the foundation for Project N.O.V.A. tooling. Currently more capable than the driver — which is the correct ordering of priorities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Civic -->
+    <div class="car-block">
+      <p class="car-title">AutoX / XB Class — <em>1989 Honda Civic Si (EF Hatch)</em></p>
+      <div class="item-list">
+        <div class="item">
+          <span class="item-label">Suspension</span>
+          <div class="item-content">
+            <div class="item-name">Koni Yellows · -1° camber</div>
+            <p class="item-note">Same philosophy as the Miata — Konis are the right answer when you want the car to behave. The -1° is the minimum useful camber for autocross without creating tire wear problems on the drive home.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Tires</span>
+          <div class="item-content">
+            <div class="item-name">Falken Azenis RT615K+ 200TW</div>
+            <p class="item-note">A 200TW compound that actually respects its classification. Does what it says, doesn't pretend to be something it isn't — a useful quality in both tires and people.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Brakes</span>
+          <div class="item-content">
+            <div class="item-name">Wilwood Calipers + Hawk AutoX Pads</div>
+            <p class="item-note">Wilwoods on a 35-year-old Civic is either overkill or exactly right depending on how seriously you take the class. The Hawk AutoX pads are the correct choice: cold bite matters when your runs are 60 seconds.</p>
+          </div>
+        </div>
+        <div class="item">
+          <span class="item-label">Safety</span>
+          <div class="item-content">
+            <div class="item-name">Off-the-Shelf 4pt Bar · RaceQuip 6pt</div>
+            <div class="tag-row">
+              <span class="spec-tag">XB Class</span>
+              <span class="spec-tag amber">6pt Harness</span>
+              <span class="spec-tag green">Near-STS Legal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Helmet -->
+    <div class="item-list">
+      <div class="item">
+        <span class="item-label">Helmet</span>
+        <div class="item-content">
+          <div class="item-name">Pyrotect SNELL 2020 — Upgraded Visor, Tint, Audio</div>
+          <p class="item-note">SNELL 2020 rated with the upgraded visor and tint is the right setup for hillclimb where sun angle is unpredictable and you can't pull over to adjust. The audio capability matters more than people admit — radio communication on course is a safety tool, not a luxury.</p>
+        </div>
+      </div>
+      <div class="item">
+        <span class="item-label">GPS / Data</span>
+        <div class="item-content">
+          <div class="item-name">GoPro Hero 7 Silver + GPS Sender</div>
+          <p class="item-note">The onboard GPS is the primary data source for N.O.V.A. telemetry — good enough to correlate with track position without needing a dedicated puck. Pairs with OBD Fusion and the Veepeak OBDCheck BLE+ for fuller data pulls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SOFTWARE ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-tech"></span>
+      <h2>Software / Dev Stack</h2>
+    </div>
+    <div class="item-list">
+
+      <div class="item">
+        <span class="item-label">OS</span>
+        <div class="item-content">
+          <div class="item-name">Arch Linux (iMac) · macOS via OCLP (MBA)</div>
+          <p class="item-note">Arch on the iMac is the daily driver for real work — KDE Plasma, full control, no surprises except the ones you caused yourself. The MBA runs a MacOS beta via OpenCore Patcher: the right amount of jank for a machine that was otherwise headed for a drawer.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Editor</span>
+        <div class="item-content">
+          <div class="item-name">VSCodium</div>
+          <p class="item-note">VSCode without Microsoft's telemetry baked in. The same ecosystem, the same extensions, none of the data exhaust. The distinction matters when you're already running Arch because you care about that sort of thing.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Browser</span>
+        <div class="item-content">
+          <div class="item-name">Vivaldi</div>
+          <p class="item-note">The only Chromium-based browser that doesn't feel like it's trying to simplify you into submission. Tab stacking and the sidebar are genuinely useful, not just features on a spec sheet.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Terminal</span>
+        <div class="item-content">
+          <div class="item-name">iTerm2 (macOS) · Konsole (Arch)</div>
+          <p class="item-note">iTerm2 because nothing else on Mac comes close for split panes and profile management. Konsole because it's native to KDE and gets out of the way. Two machines, two correct answers.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Version Control</span>
+        <div class="item-content">
+          <div class="item-name">Git · GitHub · GitLab</div>
+          <p class="item-note">GitHub for public-facing and collaborative work; GitLab for anything self-hosted or where the pipeline tooling matters. Git is non-negotiable and also occasionally insufferable — the usual relationship.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Languages</span>
+        <div class="item-content">
+          <div class="item-name">Python · JavaScript · HTML · C · Java</div>
+          <p class="item-note">Python for data work and automation — it's the right tool for most problems that aren't latency-sensitive. JS because the web still runs on it. C when the hardware requires you to think carefully. Java when something upstream forces the issue.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">CLI / Package</span>
+        <div class="item-content">
+          <div class="item-name">Paru · Pacman · Homebrew · AWS CLI · Git</div>
+          <p class="item-note">Paru as the AUR helper of choice — faster and friendlier than yay. Pacman for the base system. Homebrew on the Mac side because it still wins for getting tools installed without a fight.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Self-Hosted</span>
+        <div class="item-content">
+          <div class="item-name">*Arr Stack · Pi-hole · Immich · (and others)</div>
+          <p class="item-note">Pi-hole is the single best quality-of-life change on a home network — everything else is optional, but that one isn't. Immich handles photo backup without phoning home to anyone. The Arr stack is self-explanatory.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── HARDWARE ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-hw"></span>
+      <h2>Hardware / Workshop Tools</h2>
+    </div>
+    <div class="item-list">
+
+      <div class="item">
+        <span class="item-label">3D Printer</span>
+        <div class="item-content">
+          <div class="item-name">Ender 3 (Pre-Lift, Upgraded) — Marlin + OctoPrint</div>
+          <p class="item-note">The Ender 3 is the Honda Civic of 3D printers: cheap to buy, endlessly modified, and more capable than its price suggests once you've put the time in. Marlin firmware and OctoPrint remote monitoring are both mandatory upgrades — the printer it ships as and the printer it becomes are different machines.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Slicer</span>
+        <div class="item-content">
+          <div class="item-name">OrcaSlicer</div>
+          <p class="item-note">Forked from Bambu's slicer but without the lock-in. Better calibration tooling than PrusaSlicer and a cleaner interface than Cura. It's the right answer for a modified Ender where you're tuning frequently.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">CAD</span>
+        <div class="item-content">
+          <div class="item-name">FreeCAD · OpenSCAD · Blender</div>
+          <p class="item-note">FreeCAD for parametric mechanical parts where dimensions matter. OpenSCAD when the part is better described as code than as a sketch. Blender when the goal is visual rather than dimensional — it's not a CAD tool, but it's the best tool for certain jobs anyway.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Vinyl Cutter</span>
+        <div class="item-content">
+          <div class="item-name">Silhouette Cameo 2 + Inkscape Plugin</div>
+          <p class="item-note">The Cameo 2 is older hardware that still does the job cleanly. Driving it from Inkscape via the plugin keeps the whole workflow in open-source tooling — no subscription, no cloud dependency, no nonsense.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Measurement</span>
+        <div class="item-content">
+          <div class="item-name">Calipers · Micrometers · Laser Measures · Tape Measures (All Kinds)</div>
+          <p class="item-note">The correct answer to "do I have the right measuring tool" is to own all of them. Digital calipers live on the bench; the micrometer comes out when the calipers aren't precise enough, which is more often than you'd expect.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Electronics Bench</span>
+        <div class="item-content">
+          <div class="item-name">Full Bench Setup — Soldering Station, Multimeter, etc.</div>
+          <p class="item-note">The bench exists to support the N.O.V.A. electronics work and general hardware tinkering. A good soldering iron is the single most leverage-producing tool purchase for anyone building custom hardware — cheap irons cost more in time than they save in money.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Workspace</span>
+        <div class="item-content">
+          <div class="item-name">Handmade Carbon Desktop Worktable · Shop-Style Wooden Table</div>
+          <p class="item-note">Two surfaces because the work splits cleanly between them: the carbon desk for screen-based work, the shop table for anything involving tools or parts. Having the physical separation forces better habits about which mode you're in.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Phone</span>
+        <div class="item-content">
+          <div class="item-name">iPhone 16 Pro</div>
+          <p class="item-note">Used reluctantly. The camera system is genuinely excellent for a phone, which matters when the real cameras aren't handy. Everything else about the Apple ecosystem is tolerated rather than enjoyed.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <span class="item-label">Medical Tech</span>
+        <div class="item-content">
+          <div class="item-name">Dexcom G7 CGM · Tandem t:slim X2</div>
+          <p class="item-note">T1D management on the grid and in the field. The G7 integration with the t:slim closes the loop well enough that it largely runs itself — which is the correct amount of cognitive overhead for hardware you depend on at speed.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong &nbsp;·&nbsp; Built &amp; Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>
