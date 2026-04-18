@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Now Active — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="What Fisher Armstrong is building, testing, and thinking about this month.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+
+  --photo:  #e98d8d;
+  --motor:  #c9a800;
+  --tech:   #2f6fb2;
+  --hw:     #6bbf59;
+
+  /* status colors */
+  --s-active:  #2a7a3b;
+  --s-active-bg: rgba(42,122,59,0.09);
+  --s-testing: #2f6fb2;
+  --s-testing-bg: rgba(47,111,178,0.09);
+  --s-blocked: #b85c1a;
+  --s-blocked-bg: rgba(184,92,26,0.09);
+  --s-shipped: #5c5c5c;
+  --s-shipped-bg: rgba(0,0,0,0.06);
+
+  --dark:  #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+/* ── VERSION ── */
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.page-header .subtitle {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 1.6rem;
+}
+
+/* ── LAST UPDATED BAR ── */
+.updated-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2.5rem;
+}
+
+.live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--s-active);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--s-active);
+  opacity: 0;
+  animation: ping 2.4s ease-out infinite;
+}
+
+@keyframes ping {
+  0%   { opacity: 0.5; transform: scale(1); }
+  80%  { opacity: 0;   transform: scale(2.2); }
+  100% { opacity: 0;   transform: scale(2.2); }
+}
+
+.updated-text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 52px 28px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.6rem;
+}
+
+.section-label h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.section-label .accent-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+}
+
+.dot-tech  { background: var(--tech);  }
+.dot-motor { background: var(--motor); }
+.dot-hw    { background: var(--hw);    }
+.dot-photo { background: var(--photo); }
+
+/* ── THREAD (project entry) ── */
+.thread-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.thread {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 20px;
+  align-items: start;
+}
+
+.thread:first-child { border-top: 1px solid var(--rule); }
+
+.thread-main {}
+
+.thread-name {
+  font-weight: 600;
+  font-size: 0.97rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.thread-detail {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 520px;
+  margin-bottom: 0.6rem;
+}
+
+/* ── PROGRESS NOTES ── */
+.progress-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.note-line {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 0.815rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.note-line::before {
+  content: '—';
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--muted-2);
+  flex-shrink: 0;
+}
+
+/* ── STATUS BADGE ── */
+.status-badge {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.status-badge.active  { background: var(--s-active-bg);  color: var(--s-active);  }
+.status-badge.testing { background: var(--s-testing-bg); color: var(--s-testing); }
+.status-badge.blocked { background: var(--s-blocked-bg); color: var(--s-blocked); }
+.status-badge.shipped { background: var(--s-shipped-bg); color: var(--s-shipped); }
+
+/* ── SHIPPED GRID ── */
+.shipped-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.shipped-card {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.4);
+}
+
+.shipped-card-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.shipped-card-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.shipped-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted-2);
+}
+
+.shipped-card-tag .s-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+
+@media (max-width: 560px) {
+  .thread {
+    grid-template-columns: 1fr;
+    gap: 8px 0;
+  }
+  .status-badge { align-self: start; }
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="version">build 11.4.6</div>
+
+<div class="page-header">
+  <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>now</p>
+  <h1>Now Active</h1>
+  <p class="subtitle">What I'm building or testing this month. Updated when something meaningful changes — not on a schedule.</p>
+  <div class="updated-bar">
+    <span class="live-dot"></span>
+    <span class="updated-text">Last updated — April 2026</span>
+  </div>
+</div>
+<hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
+
+<div class="layout">
+
+  <!-- ── SOFTWARE / DEV ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-tech"></span>
+      <h2>Software / Dev</h2>
+    </div>
+    <div class="thread-list">
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">LinkedIn Education Data Pipeline</div>
+          <p class="thread-detail">Building an extraction and normalization pipeline for ~3,000 LinkedIn profiles. Proxycurl identified as the compliant path — scoping rate limits, cost per call, and the field coverage I actually need before pulling the trigger on API access.</p>
+          <div class="progress-notes">
+            <div class="note-line">Architecture drafted; Proxycurl trial underway</div>
+            <div class="note-line">Evaluating field completeness on education vs. experience objects</div>
+            <div class="note-line">Downstream normalization schema in early sketch</div>
+          </div>
+        </div>
+        <span class="status-badge active">Active</span>
+      </div>
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Arch Linux Environment — KDE Plasma</div>
+          <p class="thread-detail">The iMac migration is stable but the environment is still being dialed in. Current focus is image preview tooling for culling workflow and Proton Mail Bridge reliability in Thunderbird.</p>
+          <div class="progress-notes">
+            <div class="note-line">Boot (Alt key bypass) and base KDE Plasma: done</div>
+            <div class="note-line">Proton Mail Bridge ↔ Thunderbird: intermittent auth issues</div>
+            <div class="note-line">Culling workflow: testing digiKam vs. a lighter previewer</div>
+          </div>
+        </div>
+        <span class="status-badge testing">Testing</span>
+      </div>
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">DPAC — Drivetrain-Aware Performance Analytics</div>
+          <p class="thread-detail">Ongoing research into normalization factors for autocross and hillclimb that account for drivetrain config, tire classification, elevation, and power-to-weight. Not an official classing tool — an honest attempt to make lap time comparisons more meaningful.</p>
+          <div class="progress-notes">
+            <div class="note-line">PAX critique writeup in progress (see blog)</div>
+            <div class="note-line">Elevation weighting model under revision</div>
+            <div class="note-line">FWD/RWD delta coefficients need more event data</div>
+          </div>
+        </div>
+        <span class="status-badge active">Active</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── HARDWARE / MAKER ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-hw"></span>
+      <h2>Hardware / Maker</h2>
+    </div>
+    <div class="thread-list">
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Ender 3 — Print Quality Recovery</div>
+          <p class="thread-detail">Stringing and blobbing traced to wet filament compounded by enclosure heat management issues. Running a food dehydrator drying workflow with PTFE passthrough. Enclosure exhaust set to negative pressure to pull hot air out rather than trap it.</p>
+          <div class="progress-notes">
+            <div class="note-line">Filament drying protocol: implemented, improvement confirmed</div>
+            <div class="note-line">Enclosure airflow (exhaust outward): testing this week</div>
+            <div class="note-line">OrcaSlicer temp/speed calibration: in progress</div>
+          </div>
+        </div>
+        <span class="status-badge testing">Testing</span>
+      </div>
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Project N.O.V.A. — Onboard Data Logger</div>
+          <p class="thread-detail">The Teensy 4.1-based logger (M9N GPS, LSM6DSO32 IMU, MCP2515 CAN) is the core telemetry platform for Activism Motorsports. Current work is correlating GPS position with CAN data channels and cleaning up the sync logic between sensor streams.</p>
+          <div class="progress-notes">
+            <div class="note-line">GPS + IMU sync: working, latency acceptable</div>
+            <div class="note-line">CAN bus integration: active debugging</div>
+            <div class="note-line">GoPro Hero 7 GPS as secondary validation source</div>
+          </div>
+        </div>
+        <span class="status-badge active">Active</span>
+      </div>
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Vinyl Cut Sticker Run — Motorsports Series</div>
+          <p class="thread-detail">Working a batch of insider motorsports sticker designs through the Cameo 2 + Inkscape pipeline. Minimal single-phrase concepts with weedability as a hard constraint on geometry. A few designs are print-ready; waiting on vinyl stock.</p>
+          <div class="progress-notes">
+            <div class="note-line">~4 designs finalized in Inkscape</div>
+            <div class="note-line">Blocked on vinyl restock</div>
+          </div>
+        </div>
+        <span class="status-badge blocked">Blocked</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── MOTORSPORTS ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-motor"></span>
+      <h2>Motorsports</h2>
+    </div>
+    <div class="thread-list">
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">RX-8 — Season Prep</div>
+          <p class="thread-detail">Getting the hillclimb car squared away ahead of the season. Öhlins damper service due, brake pad swap (Hawk Track Day), and a full review of the cage hardware torque specs with Victory Fabrications sign-off.</p>
+          <div class="progress-notes">
+            <div class="note-line">Öhlins service: scheduled</div>
+            <div class="note-line">Hoosier A7s mounted and stored</div>
+            <div class="note-line">N.O.V.A. logger fitment into RX-8 chassis: pending</div>
+          </div>
+        </div>
+        <span class="status-badge active">Active</span>
+      </div>
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Civic EF — XB Class Setup Review</div>
+          <p class="thread-detail">Running through alignment and corner-weight data from last season. The -1° camber setup was conservative — evaluating whether more front camber makes sense given the Falken RT615K+ behavior at the limit on tighter autocross courses.</p>
+          <div class="progress-notes">
+            <div class="note-line">Last season data: reviewed</div>
+            <div class="note-line">Alignment adjustment: TBD pending spring event schedule</div>
+          </div>
+        </div>
+        <span class="status-badge testing">Testing</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PHOTOGRAPHY ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot dot-photo"></span>
+      <h2>Photography</h2>
+    </div>
+    <div class="thread-list">
+
+      <div class="thread">
+        <div class="thread-main">
+          <div class="thread-name">Linux Culling Workflow — digiKam + Darktable</div>
+          <p class="thread-detail">Rebuilding the photography culling and editing pipeline on Arch. The goal is a fully open-source chain from import to export that doesn't lose meaningful speed against the previous macOS + Lightroom setup. digiKam for culling; Darktable for serious edits.</p>
+          <div class="progress-notes">
+            <div class="note-line">Darktable: installed, initial presets ported</div>
+            <div class="note-line">digiKam: config in progress, face detection performance testing</div>
+            <div class="note-line">Fast preview rendering for RAW culling: still evaluating</div>
+          </div>
+        </div>
+        <span class="status-badge testing">Testing</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SHIPPED THIS MONTH ── -->
+  <section>
+    <div class="section-label">
+      <span class="accent-dot" style="background:var(--muted-2)"></span>
+      <h2>Shipped This Month</h2>
+    </div>
+    <div class="shipped-grid">
+
+      <div class="shipped-card">
+        <div class="shipped-card-name">Personal Site — Defunct Page</div>
+        <p class="shipped-card-note">Archived documentation for DebateDaily and Appalachian Manufacturing Co. with honest post-mortems.</p>
+        <div class="shipped-card-tag">
+          <span class="s-dot" style="background:var(--tech)"></span>
+          Site
+        </div>
+      </div>
+
+      <div class="shipped-card">
+        <div class="shipped-card-name">Personal Site — Blog Index</div>
+        <p class="shipped-card-note">Blog homepage with featured post, category filtering, and a publication-style post list.</p>
+        <div class="shipped-card-tag">
+          <span class="s-dot" style="background:var(--tech)"></span>
+          Site
+        </div>
+      </div>
+
+      <div class="shipped-card">
+        <div class="shipped-card-name">Ender 3 Firmware — Stable Reflash</div>
+        <p class="shipped-card-note">Resolved the failing SD card / Creality bootloader filename-tracking issue. Printer on stable Marlin build.</p>
+        <div class="shipped-card-tag">
+          <span class="s-dot" style="background:var(--hw)"></span>
+          Maker
+        </div>
+      </div>
+
+      <div class="shipped-card">
+        <div class="shipped-card-name">PAX Critique — Draft Complete</div>
+        <p class="shipped-card-note">Long-form writeup on normalization assumptions in autocross indexing systems, built around DPAC research.</p>
+        <div class="shipped-card-tag">
+          <span class="s-dot" style="background:var(--motor)"></span>
+          Motorsports
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /layout -->
+
+<footer>
+  © 2026 Fisher Armstrong <br>
+   Built &amp; Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>

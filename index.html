@@ -58,6 +58,7 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: 0.05em;
 }
  
+
 /* HERO */
 .hero {
   display: flex;
@@ -300,6 +301,88 @@ aside h2 {
 .tag-blue  { background: rgba(47,111,178,0.15); color: #1d4f86; }
 .tag-gray  { background: rgba(109,108,112,0.15); color: #444; }
  
+
+
+/* SPONSOR SECTION */
+.sponsor-bar {
+  border-top: 2px solid rgba(255,255,255,0.06);
+  padding: 40px 28px 44px;
+}
+ 
+.sponsor-bar-inner {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+ 
+.sponsor-header {
+  font-family: "Inter", system-ui, sans-serif;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+ 
+.sponsor-header h2 {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #26262e
+}
+ 
+ 
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+ 
+@media (max-width: 800px) {
+  .sponsor-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 500px) {
+  .sponsor-grid { grid-template-columns: repeat(2, 1fr); }
+}
+ 
+.sponsor-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 16px;
+  border-radius: 10px;
+  border: 1.5px dashed rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: #161616
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease; background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  min-height: 100px;
+  text-decoration: none;
+}
+ 
+.sponsor-slot svg {
+  width: 22px;
+  height: 22px;
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+ 
+.sponsor-slot:hover {
+  border-color: #5c5c5c;
+  background: #5c5c5c
+  transform: translateY(-3px);
+}
+ 
+.sponsor-slot:hover svg {
+  opacity: 0.7;
+}
+
 /* FOOTER */
 footer {
   background: var(--dark);
@@ -445,6 +528,48 @@ footer {
 </div>
 </aside>
 </main>
+
+<!-- SPONSOR BAR -->
+<section class="sponsor-bar">
+  <div class="sponsor-bar-inner">
+    <div class="sponsor-header">
+      <h2>Future Sponsors (Brands I Love)</h2>
+    </div>
+    <div class="sponsor-grid">
+
+      <!-- Canon -->
+      <a class="sponsor-slot" href="https://www.usa.canon.com" target="_blank" rel="noopener">
+      <img src="photos/CNlogo.png" alt="Canon" style="width: 60px; height: auto; opacity: 0.6;">
+        Canon
+      </a>
+
+      <!-- Peak Design -->
+      <a class="sponsor-slot" href="https://www.peakdesign.com" target="_blank" rel="noopener">
+        <img src="photos/PDlogo.PNG" alt="Peak Design" style="width: 60px; height: auto; opacity: 0.6;">
+        Peak Design
+      </a>
+
+      <!-- Red Bull -->
+      <a class="sponsor-slot" href="https://www.redbull.com" target="_blank" rel="noopener">
+      <img src="photos/RBlogo.png" alt="RedBull" style="width: 60px; height: auto; opacity: 0.6;">
+        Red Bull
+      </a>
+
+      <!-- GoPro -->
+      <a class="sponsor-slot" href="https://gopro.com" target="_blank" rel="noopener">
+      <img src="photos/GPlogo.png" alt="GoPro" style="width: 60px; height: auto; opacity: 0.6;">
+        GoPro
+      </a>
+
+      <!-- Honda -->
+      <a class="sponsor-slot" href="https://www.Honda.com" target="_blank" rel="noopener">
+      <img src="photos/HDAlogo.jpg" alt="Honda" style="width: 60px; height: auto; opacity: 0.6;">
+        Honda
+      </a>
+
+    </div>
+  </div>
+</section>
  
 <footer>
   © 2026 Fisher Armstrong <br>

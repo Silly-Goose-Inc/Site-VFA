@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Writing — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Writing on motorsports, photography, software, and making things.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+
+  --photo:  #e98d8d;
+  --motor:  #c9a800;
+  --tech:   #2f6fb2;
+  --hw:     #6bbf59;
+  --essay:  #9b7ecb;
+
+  --photo-bg: rgba(233,141,141,0.09);
+  --motor-bg: rgba(201,168,0,0.09);
+  --tech-bg:  rgba(47,111,178,0.09);
+  --hw-bg:    rgba(107,191,89,0.09);
+  --essay-bg: rgba(155,126,203,0.09);
+
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+/* ── UTILITIES ── */
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.4rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.page-header .subtitle {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 52px 28px 100px;
+}
+
+/* ── FEATURED POST ── */
+.featured {
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeUp 0.45s ease forwards;
+}
+
+.featured-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.featured-eyebrow .cat-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.featured-eyebrow .cat-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.featured-eyebrow .pinned-tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.featured-title {
+  font-family: "Lora", Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  max-width: 580px;
+  transition: opacity 0.15s;
+}
+
+.featured-title a:hover { opacity: 0.7; }
+
+.featured-excerpt {
+  font-size: 0.925rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 540px;
+  margin-bottom: 18px;
+}
+
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.04em;
+}
+
+.featured-meta .sep { opacity: 0.3; }
+
+.read-link {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 1px;
+  transition: opacity 0.15s;
+}
+.read-link:hover { opacity: 0.5; }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.45s 0.1s ease forwards;
+}
+
+.filter-btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-btn:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--ink);
+}
+
+.filter-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.filter-btn .f-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+
+.filter-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0 0 0;
+}
+
+/* ── POST LIST ── */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  animation: fadeUp 0.45s 0.2s ease forwards;
+}
+
+.post-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+  transition: opacity 0.2s;
+}
+
+.post-item:first-child { border-top: 1px solid var(--rule); }
+
+.post-item.hidden { display: none; }
+
+.post-date-col {
+  padding-top: 3px;
+}
+
+.post-date {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--muted-2);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.post-content {}
+
+.post-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.cat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-dot.photo { background: var(--photo); }
+.cat-dot.motor { background: var(--motor); }
+.cat-dot.tech  { background: var(--tech);  }
+.cat-dot.hw    { background: var(--hw);    }
+.cat-dot.essay { background: var(--essay); }
+
+.cat-name {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted-2);
+}
+
+.post-title {
+  font-family: "Lora", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  transition: opacity 0.15s;
+}
+
+.post-title a:hover { opacity: 0.6; }
+
+.post-excerpt {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 10px;
+  max-width: 520px;
+}
+
+.post-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.read-time {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--muted-2);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 520px) {
+  .post-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .post-date-col { padding-top: 0; }
+  .featured-title { font-size: 1.4rem; }
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  padding: 40px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+  display: none;
+}
+
+/* ── LOAD ANIMATION ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="version">build 11.4.6</div>
+
+<div class="page-header">
+  <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>writing</p>
+  <h1>Writing</h1>
+  <p class="subtitle">Dispatches on motorsports, photography, software, and making things. Opinions are mine. Accuracy is the goal.</p>
+</div>
+<hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
+
+<div class="layout">
+
+  <!-- ── FEATURED ── -->
+  <div class="featured">
+    <div class="featured-eyebrow">
+      <span class="cat-dot" style="background:var(--motor)"></span>
+      <span class="cat-label">Motorsports</span>
+      <span class="pinned-tag">Latest</span>
+    </div>
+    <h2 class="featured-title"><a href="#">The Problem With PAX: Why Autocross Normalization Is Harder Than It Looks</a></h2>
+    <p class="featured-excerpt">PAX is doing a job nobody asked it to do and doing it imperfectly. The index system was designed to let different classes compete on the same clock, but it encodes assumptions about tire compounds, power delivery, and driver inputs that haven't aged evenly. DPAC started as a frustration with that imprecision — here's what building an alternative taught me about why the problem is genuinely hard.</p>
+    <div class="featured-meta">
+      <span>Apr 12, 2026</span>
+      <span class="sep">·</span>
+      <span>11 min read</span>
+      <span class="sep">·</span>
+      <a href="#" class="read-link">Read →</a>
+    </div>
+  </div>
+
+  <!-- ── FILTER BAR ── -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="motor">
+      <span class="f-dot" style="background:var(--motor)"></span>Motorsports
+    </button>
+    <button class="filter-btn" data-filter="photo">
+      <span class="f-dot" style="background:var(--photo)"></span>Photography
+    </button>
+    <button class="filter-btn" data-filter="tech">
+      <span class="f-dot" style="background:var(--tech)"></span>Tech
+    </button>
+    <button class="filter-btn" data-filter="hw">
+      <span class="f-dot" style="background:var(--hw)"></span>Maker
+    </button>
+    <button class="filter-btn" data-filter="essay">
+      <span class="f-dot" style="background:var(--essay)"></span>Essay
+    </button>
+  </div>
+  <hr class="filter-rule" style="margin-bottom:0;">
+
+  <!-- ── POST LIST ── -->
+  <div class="post-list" id="postList">
+
+    <article class="post-item" data-cat="motor">
+      <div class="post-date-col">
+        <div class="post-date">Apr 12<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot motor"></span>
+          <span class="cat-name">Motorsports</span>
+        </div>
+        <h3 class="post-title"><a href="#">The Problem With PAX: Why Autocross Normalization Is Harder Than It Looks</a></h3>
+        <p class="post-excerpt">PAX is doing a job nobody asked it to do and doing it imperfectly. DPAC started as a frustration with that imprecision — here's what building an alternative taught me about why the problem is genuinely hard.</p>
+        <div class="post-footer-row">
+          <span class="read-time">11 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="tech">
+      <div class="post-date-col">
+        <div class="post-date">Mar 28<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot tech"></span>
+          <span class="cat-name">Tech</span>
+        </div>
+        <h3 class="post-title"><a href="#">A Year on Arch: What I Got Right, What I Got Wrong, and What I'd Tell Myself</a></h3>
+        <p class="post-excerpt">Moving a 2017 iMac to Arch Linux was not the path of least resistance. It was, however, the correct decision. Here's what the experience actually looks like after living in it — with KDE Plasma, a photography workflow, and a dev stack that had to keep working through all of it.</p>
+        <div class="post-footer-row">
+          <span class="read-time">8 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="photo">
+      <div class="post-date-col">
+        <div class="post-date">Mar 14<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot photo"></span>
+          <span class="cat-name">Photography</span>
+        </div>
+        <h3 class="post-title"><a href="#">On Shooting Motorsports Ethically: Consent, Access, and the Pit Lane</a></h3>
+        <p class="post-excerpt">Motorsports photography is uniquely permissive — most venues let you walk close, drivers expect coverage, and the spectacle is the point. But ethical documentary practice still applies. Here's how I think about representation, consent, and access in a context that often assumes they're non-issues.</p>
+        <div class="post-footer-row">
+          <span class="read-time">7 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="hw">
+      <div class="post-date-col">
+        <div class="post-date">Feb 28<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot hw"></span>
+          <span class="cat-name">Maker</span>
+        </div>
+        <h3 class="post-title"><a href="#">Wet Filament Is Ruining Your Prints and You Probably Know It</a></h3>
+        <p class="post-excerpt">The stringing and blobbing that shows up in summer isn't a slicer problem, a temperature problem, or a retraction problem — it's a humidity problem. How I built a drying workflow around a food dehydrator, a PTFE passthrough, and a proper storage system, and why it fixed 80% of my quality issues overnight.</p>
+        <div class="post-footer-row">
+          <span class="read-time">6 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="motor">
+      <div class="post-date-col">
+        <div class="post-date">Feb 10<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot motor"></span>
+          <span class="cat-name">Motorsports</span>
+        </div>
+        <h3 class="post-title"><a href="#">What a Rotary Teaches You About Mechanical Empathy</a></h3>
+        <p class="post-excerpt">The 13B doesn't forgive inattention. It rewards warmup routines, precise cooldown habits, and oil that you actually change on schedule. Running an RX-8 on a hillclimb program is, among other things, a sustained lesson in the difference between knowing what a machine needs and actually doing it.</p>
+        <div class="post-footer-row">
+          <span class="read-time">9 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="essay">
+      <div class="post-date-col">
+        <div class="post-date">Jan 30<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot essay"></span>
+          <span class="cat-name">Essay</span>
+        </div>
+        <h3 class="post-title"><a href="#">Against Platform Dependence: A Case for Owning Your Own Stack</a></h3>
+        <p class="post-excerpt">The argument for self-hosting isn't technical, it's philosophical. Every service you depend on that you don't control is a single point of failure for your own work. Here's how I think about the line between convenience and fragility — and where I've drawn it in my own infrastructure.</p>
+        <div class="post-footer-row">
+          <span class="read-time">5 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="photo">
+      <div class="post-date-col">
+        <div class="post-date">Jan 15<br>2026</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot photo"></span>
+          <span class="cat-name">Photography</span>
+        </div>
+        <h3 class="post-title"><a href="#">The Canon R6 After Two Years of Event Shooting: An Honest Accounting</a></h3>
+        <p class="post-excerpt">The R6 doesn't get the press the R3 and R5 do, and that's mostly fair — it's a mid-tier body with mid-tier specs. But the autofocus and IBIS are legitimately class-leading for the price, and two years of motorsports and activism documentation has been a real test. Here's what held up and what I'd change.</p>
+        <div class="post-footer-row">
+          <span class="read-time">10 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="tech">
+      <div class="post-date-col">
+        <div class="post-date">Dec 22<br>2025</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot tech"></span>
+          <span class="cat-name">Tech</span>
+        </div>
+        <h3 class="post-title"><a href="#">Building a LinkedIn Data Pipeline Without Getting Banned: A Practical Guide</a></h3>
+        <p class="post-excerpt">Scraping LinkedIn at scale is either easy or impossible depending on how you go about it. The legitimate path — compliant APIs, Proxycurl, structured rate management — is slower and more expensive than the alternatives, and almost certainly worth it. What I learned scoping a 3,000-profile extraction project.</p>
+        <div class="post-footer-row">
+          <span class="read-time">8 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="hw">
+      <div class="post-date-col">
+        <div class="post-date">Dec 5<br>2025</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot hw"></span>
+          <span class="cat-name">Maker</span>
+        </div>
+        <h3 class="post-title"><a href="#">N.O.V.A. Logger: Building a Teensy-Based Telemetry Stack From Scratch</a></h3>
+        <p class="post-excerpt">The Teensy 4.1 is fast enough to log GPS, IMU, and CAN data simultaneously without choking. Here's the hardware architecture behind the N.O.V.A. data logger — M9N GPS, LSM6DSO32 IMU, MCP2515 CAN module — and what building it taught me about real-time data pipelines in constrained environments.</p>
+        <div class="post-footer-row">
+          <span class="read-time">14 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="post-item" data-cat="essay">
+      <div class="post-date-col">
+        <div class="post-date">Nov 18<br>2025</div>
+      </div>
+      <div class="post-content">
+        <div class="post-cat-row">
+          <span class="cat-dot essay"></span>
+          <span class="cat-name">Essay</span>
+        </div>
+        <h3 class="post-title"><a href="#">T1D at Speed: Managing Diabetes in a Competitive Motorsports Context</a></h3>
+        <p class="post-excerpt">The Dexcom G7 and t:slim closed loop work well enough on a normal day. On a hillclimb day — with the adrenaline, the physical demand, the heat, and the schedule that doesn't flex — it requires a different kind of management. What I've learned running a closed-loop system at competition events.</p>
+        <div class="post-footer-row">
+          <span class="read-time">7 min read</span>
+          <a href="#" class="read-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+  </div><!-- /post-list -->
+
+  <p class="empty-state" id="emptyState">— No posts in this category yet.</p>
+
+</div><!-- /layout -->
+
+<footer>
+  © 2026 Fisher Armstrong &nbsp;·&nbsp; Built &amp; Maintained by @FishTankTech
+</footer>
+
+<script>
+  const btns  = document.querySelectorAll('.filter-btn');
+  const posts = document.querySelectorAll('.post-item');
+  const empty = document.getElementById('emptyState');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      let visible = 0;
+      posts.forEach(post => {
+        const match = filter === 'all' || post.dataset.cat === filter;
+        post.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+
+      empty.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
