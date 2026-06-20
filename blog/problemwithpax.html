@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Problem With PAX — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why autocross normalization is harder than it looks, and what building DPAC reveals about the limits of PAX.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --motor:  #c9a800;
+  --tech:   #2f6fb2;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb a:hover { color: var(--ink); }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tech);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.2rem;
+  margin: 2.6rem 0 0.8rem;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  margin: 1.8rem 0;
+  background: rgba(0,0,0,0.03);
+}
+
+.callout.info { border-color: var(--tech); }
+.callout.note { border-color: var(--motor); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.callout p { margin: 0; }
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 · Motorsports</div>
+
+<div class="post-header">
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a> / <a href="blog.html">blog</a> / PAX-normalization
+  </p>
+
+  <p class="post-eyebrow">Motorsports / Data</p>
+
+  <h1>The Problem With PAX: Why Autocross Normalization Is Harder Than It Looks</h1>
+
+  <div class="post-meta">
+    <span>April 12, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>11 min read</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+  </div>
+</div>
+
+<hr class="header-rule" style="max-width:720px;margin:0 auto;">
+
+<div class="post-body">
+
+<p>
+PAX is doing a job nobody asked it to do, and it's doing it imperfectly. Inside autocross, that isn't controversial. Most people with more than a season of experience already have an opinion on it, usually formed the first time a well-driven run in a slower class gets buried under a mediocre run in a heavily indexed car.
+</p>
+
+<p>
+DPAC started from that same frustration. Building an alternative made something clearer: the issue is not simply a bad index. The job itself is structurally difficult, and PAX’s weaknesses are largely what you would expect from a system trying to solve an under-defined problem.
+</p>
+
+<h2>What PAX is actually trying to do</h2>
+
+<p>
+Autocross consists of many classes split by modification level and performance category. This separation is necessary for competition integrity, but it creates a structural issue: most classes contain only a few drivers, while events still need a single overall winner.
+</p>
+
+<p>
+PAX attempts to answer a question that classing does not define: across all classes, who drove best? It applies a multiplier to raw times to normalize class performance ceilings, allowing comparison between otherwise unrelated vehicles.
+</p>
+
+<p>
+The goal is reasonable. The difficulty is in the assumptions required to make it function.
+</p>
+
+<h2>Where the index comes from</h2>
+
+<p>
+PAX indices are not derived from physics or controlled testing. They are constructed from historical national-level results, then smoothed and adjusted over time.
+</p>
+
+<p>
+This creates a backward-looking model: the index reflects how classes have performed at the highest level historically, not how they behave at a given regional event, with its own surface, weather, and driver distribution.
+</p>
+
+<p>
+The result is a number that is precise in appearance but context-dependent in accuracy.
+</p>
+
+<h2>The averaging problem</h2>
+
+<p>
+A single class contains multiple real-world configurations: tire choices, option packages, weight differences, and setup variation. PAX reduces all of this to a single class-level coefficient.
+</p>
+
+<p>
+This works statistically across large datasets. It is significantly less reliable at individual events, where small sample sizes and uneven representation can produce distortions larger than the differences between adjacent classes.
+</p>
+
+<div class="callout note">
+<div class="callout-label">Key limitation</div>
+<p>
+The index does not evaluate the specific car. It evaluates the class as a statistical average.
+</p>
+</div>
+
+<h2>Course design breaks the assumption</h2>
+
+<p>
+PAX implicitly assumes courses resemble the conditions under which its underlying data was generated: balanced mixes of transitions, slaloms, and power sections.
+</p>
+
+<p>
+Course design is independent of this model. A tight course reduces the relevance of horsepower. A fast course amplifies it. Neither condition is reflected in the index.
+</p>
+
+<p>
+As a result, accuracy varies event to event in ways the system does not expose.
+</p>
+
+<h2>What DPAC actually exposed</h2>
+
+<p>
+DPAC began as an attempt to correct perceived imprecision in local results. The implementation quickly revealed a constraint: accuracy requires either higher-resolution data or narrower scope.
+</p>
+
+<p>
+Higher-resolution data implies consistent telemetry across classes and events, which does not exist in grassroots autocross. Narrower scope produces something more accurate locally but less transferable globally.
+</p>
+
+<p>
+DPAC ultimately functions as a constrained system: calibrated to specific conditions rather than generalized across all conditions.
+</p>
+
+<h2>Why this resists a clean solution</h2>
+
+<p>
+“Best driver across all classes” is not purely a measurement problem. It embeds subjective assumptions about vehicle potential, course design, and driver execution.
+</p>
+
+<p>
+Any index encoding those assumptions will favor certain conditions over others. This is not a failure of implementation alone; it is a consequence of the problem definition.
+</p>
+
+<h2>What this means in practice</h2>
+
+<p>
+Normalization systems in autocross remain useful but imperfect. They resolve most comparisons adequately while producing edge cases that motivate alternative systems.
+</p>
+
+<p>
+PAX is not uniquely flawed; it is a stable approximation of an unstable question.
+</p>
+
+<h2>What to take away if you build your own system</h2>
+
+<p>
+Scope definition matters more than algorithmic complexity. A local, well-calibrated system will outperform a universal one in its domain. A universal system will necessarily sacrifice precision for portability.
+</p>
+
+<p>
+DPAC works because it does not attempt to resolve that tradeoff globally.
+</p>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong<br>
+  Built & Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>

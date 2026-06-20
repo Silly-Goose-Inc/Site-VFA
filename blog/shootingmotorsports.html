@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>On Shooting Motorsports Ethically: Consent, Access, and the Pit Lane</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A critical reflection on ethics in grassroots motorsports photography, focusing on consent, access, representation, and editorial responsibility in pit lane and trackside environments.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --motor:  #c9a800;
+  --warn:   #b85c1a;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--warn);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.05rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 620px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2.8rem 0 0.9rem;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 1.8rem 0;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.callout.warn  { border-color: var(--warn); background: rgba(184,92,26,0.07); }
+.callout.info  { border-color: var(--tech); background: rgba(47,111,178,0.07); }
+.callout.note  { border-color: var(--motor); background: rgba(201,168,0,0.07); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 - Friday, June 19th</div>
+
+<div class="post-header">
+
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a><span>/</span>
+    <a href="blog.html">blog</a><span>/</span>
+    on-shooting-motorsports-ethically-consent-access-pit-lane
+  </p>
+
+  <p class="post-eyebrow">Photography · Ethics · Motorsports</p>
+
+  <h1>On Shooting Motorsports Ethically: Consent, Access, and the Pit Lane</h1>
+
+  <div class="post-meta">
+    <span>March 14, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+    <span class="post-meta-dot"></span>
+    <span>~7 min read</span>
+  </div>
+
+  <div class="post-tags">
+    <span class="tag">Photography</span>
+    <span class="tag">Ethics</span>
+    <span class="tag">Motorsports</span>
+    <span class="tag">Consent</span>
+    <span class="tag">Documentary</span>
+  </div>
+
+</div>
+
+<hr class="header-rule" style="max-width:680px;margin:0 auto;">
+
+<div class="post-body">
+
+  <p>Motorsports photography is uniquely permissive. Most venues allow close physical access, drivers expect coverage, and the spectacle is part of the event itself. That permissiveness is real. It is also where ethical reasoning is most often bypassed.</p>
+
+  <p>Access is not equivalent to consent. The distinction is rarely enforced, but it remains structurally important.</p>
+
+  <h2>The access illusion</h2>
+
+  <p>In grassroots autocross and hillclimb environments, photographers can operate without formal restriction. Standing at apexes, working in paddocks, and shooting mid-run behavior is typically allowed by omission rather than policy.</p>
+
+  <p>That absence of restriction creates a false inference: that non-intervention implies approval. It does not.</p>
+
+  <p>Professional series introduce media structures, credentialing, and PR oversight that partially externalize ethical decision-making. Grassroots motorsports does not. The responsibility shifts entirely to the photographer.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">Core Problem</div>
+    <p>“No one stopped me” is not a substitute for consent or editorial justification.</p>
+  </div>
+
+  <h2>Consent isn’t a waiver, it’s a relationship</h2>
+
+  <p>Entry into an event implies limited consent to being photographed. That consent is broad but shallow: it covers presence, not interpretation or editorial framing.</p>
+
+  <p>A driver entering an event does not automatically consent to any possible representation of failure, distress, or mechanical loss as a defining narrative.</p>
+
+  <p>The ethical boundary exists between capture and publication, not just between photographer and subject at the moment of exposure.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Separation of Stages</div>
+    <p>Permission to shoot does not imply permission to publish without evaluation.</p>
+  </div>
+
+  <h2>The moments that require judgment</h2>
+
+  <p>Routine competitive imagery is straightforward: clean runs, paddock interaction, and standard documentation.</p>
+
+  <p>The ethical complexity appears in adjacent failure states — spins, off-track excursions, mechanical breakdowns, and visible emotional responses after setbacks.</p>
+
+  <p>These frames are often the most visually compelling, which is precisely why they require additional scrutiny.</p>
+
+  <p>Editorial decision-making must account for whether the primary value of an image is informational or whether it relies primarily on the subject’s vulnerability.</p>
+
+  <h2>Checking in is part of the workflow</h2>
+
+  <p>Photographic access does not remove the obligation to communicate with subjects. That includes pre-event context, in-event awareness, and post-event follow-up where appropriate.</p>
+
+  <p>In familiar series environments, relational proximity reduces ambiguity. In unfamiliar environments, that proximity must be actively recreated through communication.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Operational Standard</div>
+    <p>Ethical publication requires at least minimal subject awareness when images are context-sensitive.</p>
+  </div>
+
+  <h2>Representation beyond the driver</h2>
+
+  <p>Ethical considerations extend beyond competitors. Pit crews, volunteers, officials, and family members are frequently included in frames without any explicit expectation of documentation.</p>
+
+  <p>Public presence does not eliminate reasonable expectations about use, framing, or distribution.</p>
+
+  <h2>Where this leaves the work</h2>
+
+  <p>Motorsports photography provides unusually high access relative to most documentary contexts. That access reduces friction but does not reduce responsibility.</p>
+
+  <p>If anything, reduced friction increases the likelihood of unexamined editorial habits. The absence of enforcement mechanisms does not eliminate ethical constraints; it relocates them internally.</p>
+
+  <p>The governing principle remains consistent: proximity enables documentation, not unrestricted interpretation.</p>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong · Built & Maintained by FishTankTech
+</footer>
+
+</body>
+</html>

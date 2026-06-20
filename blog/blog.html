@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Writing — Fisher Armstrong</title>
+<title>Blog — VFA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Writing on motorsports, photography, software, and making things.">
 
@@ -23,7 +23,10 @@
   --tech:   #2f6fb2;
   --hw:     #6bbf59;
   --essay:  #9b7ecb;
+  --review: #ff6b6b;
 
+
+  --review-bg: rgba(255,107,107,0.09);
   --photo-bg: rgba(233,141,141,0.09);
   --motor-bg: rgba(201,168,0,0.09);
   --tech-bg:  rgba(47,111,178,0.09);
@@ -296,6 +299,7 @@ p { margin: 0; }
 .cat-dot.tech  { background: var(--tech);  }
 .cat-dot.hw    { background: var(--hw);    }
 .cat-dot.essay { background: var(--essay); }
+.cat-dot.review { background: var(--review); }
 
 .cat-name {
   font-family: "IBM Plex Mono", monospace;
@@ -378,31 +382,42 @@ footer {
 <div class="version">build 11.4.7</div>
 
 <div class="page-header">
-  <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>writing</p>
-  <h1>Writing</h1>
+  <p class="breadcrumb"><a href="/index.html">fisherarmstrong</a><span>/</span>Blog</p>
+  <h1>Blog</h1>
   <p class="subtitle">Dispatches on motorsports, photography, software, and making things. Opinions are mine. Accuracy is the goal.</p>
 </div>
 <hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
 
 <div class="layout">
 
-  <!-- ── FEATURED ── -->
-  <div class="featured">
-    <div class="featured-eyebrow">
-      <span class="cat-dot" style="background:var(--motor)"></span>
-      <span class="cat-label">Motorsports</span>
-      <span class="pinned-tag">Latest</span>
-    </div>
-    <h2 class="featured-title"><a href="the-xb-is-trying-to-kill-me.html">The xB Is Trying To Kill Me</a></h2>
-    <p class="featured-excerpt">A routine alignment turned into loose suspension hardware, warning lights, an unexpected tour of Winston-Salem hardware stores, and a reminder that I'm fortunate to know what to look for when something feels wrong. Disappointed more than angry, and very ready for this car to go back to being the boring one.</p>
-    <div class="featured-meta">
-      <span>Jun 12, 2026</span>
-      <span class="sep">·</span>
-      <span>9 min read</span>
-      <span class="sep">·</span>
-      <a href="the-xb-is-trying-to-kill-me.html" class="read-link">Read →</a>
-    </div>
+<!-- ── FEATURED ── -->
+<div class="featured">
+  <div class="featured-eyebrow">
+    <span class="cat-dot" style="background:var(--review)"></span>
+    <span class="cat-label">review</span>
+    <span class="pinned-tag">Latest</span>
   </div>
+
+  <h2 class="featured-title">
+    <a href="three-months-later-3m-worktunes.html">
+      Three Months Later: The 3M WorkTunes I Was Supposed to Return
+    </a>
+  </h2>
+
+  <p class="featured-excerpt">
+    A short-term gear test that turned into a permanent part of my workflow.
+    3M WorkTunes ended up being less of a “review unit” and more of a daily-use tool —
+    balancing hearing protection, shop work, and yard work without friction.
+  </p>
+
+  <div class="featured-meta">
+    <span>Jun 19, 2026</span>
+    <span class="sep">·</span>
+    <span>4 min read</span>
+    <span class="sep">·</span>
+    <a href="three-months-later-3m-worktunes.html" class="read-link">Read →</a>
+  </div>
+</div>
 
   <!-- ── FILTER BAR ── -->
   <div class="filter-bar">
@@ -422,11 +437,43 @@ footer {
     <button class="filter-btn" data-filter="essay">
       <span class="f-dot" style="background:var(--essay)"></span>Essay
     </button>
+    <button class="filter-btn" data-filter="review">
+    <span class="f-dot" style="background:var(--review)"></span>Review
+    </button>
   </div>
   <hr class="filter-rule" style="margin-bottom:0;">
 
   <!-- ── POST LIST ── -->
   <div class="post-list" id="postList">
+
+<article class="post-item" data-cat="review">
+  <div class="post-date-col">
+    <div class="post-date">Jun 19<br>2026</div>
+  </div>
+
+  <div class="post-content">
+
+    <div class="post-cat-row">
+      <span class="cat-dot review"></span>
+      <span class="cat-name">review</span>
+    </div>
+
+    <h3 class="post-title">
+      <a href="three-months-later-3m-worktunes.html">
+        Three Months Later: The 3M WorkTunes I Was Supposed to Return
+      </a>
+    </h3>
+    <p class="post-excerpt">
+      A short-term gear test that turned into a permanent part of my workflow. 
+      3M WorkTunes ended up being less of a “review unit” and more of a daily-use tool — 
+      balancing hearing protection, shop work, and yard work without friction.
+    </p>
+    <div class="post-footer-row">
+      <span class="read-time">4 min read</span>
+      <a href="three-months-later-3m-worktunes.html" class="read-link">Read →</a>
+    </div>
+  </div>
+</article>
 
     <article class="post-item" data-cat="motor">
       <div class="post-date-col">
@@ -549,24 +596,6 @@ footer {
         <p class="post-excerpt">The argument for self-hosting isn't technical, it's philosophical. Every service you depend on that you don't control is a single point of failure for your own work. Here's how I think about the line between convenience and fragility — and where I've drawn it in my own infrastructure.</p>
         <div class="post-footer-row">
           <span class="read-time">5 min read</span>
-          <a href="#" class="read-link">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="post-item" data-cat="photo">
-      <div class="post-date-col">
-        <div class="post-date">Jan 15<br>2026</div>
-      </div>
-      <div class="post-content">
-        <div class="post-cat-row">
-          <span class="cat-dot photo"></span>
-          <span class="cat-name">Photography</span>
-        </div>
-        <h3 class="post-title"><a href="#">The Canon R6 After Two Years of Event Shooting: An Honest Accounting</a></h3>
-        <p class="post-excerpt">The R6 doesn't get the press the R3 and R5 do, and that's mostly fair — it's a mid-tier body with mid-tier specs. But the autofocus and IBIS are legitimately class-leading for the price, and two years of motorsports and activism documentation has been a real test. Here's what held up and what I'd change.</p>
-        <div class="post-footer-row">
-          <span class="read-time">10 min read</span>
           <a href="#" class="read-link">Read →</a>
         </div>
       </div>

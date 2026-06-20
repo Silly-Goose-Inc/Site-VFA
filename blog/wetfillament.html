@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wet Filament Is Ruining Your Prints and You Probably Know It — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --motor:  #c9a800;
+  --warn:   #b85c1a;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tech);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.05rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 620px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2.6rem 0 0.9rem;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.8rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 1.6rem 0;
+  background: rgba(0,0,0,0.03);
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.callout.info {
+  border-color: var(--tech);
+  background: rgba(47,111,178,0.07);
+}
+
+.callout.warn {
+  border-color: var(--warn);
+  background: rgba(184,92,26,0.07);
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 — February 28</div>
+
+<div class="post-header">
+
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a><span>/</span>
+    <a href="blog.html">blog</a><span>/</span>
+    wet-filament-is-ruining-your-prints
+  </p>
+
+  <p class="post-eyebrow">Maker</p>
+
+  <h1>Wet Filament Is Ruining Your Prints and You Probably Know It</h1>
+
+  <div class="post-meta">
+    <span>February 28, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+    <span class="post-meta-dot"></span>
+    <span>~6 min read</span>
+  </div>
+
+  <div class="post-tags">
+    <span class="tag">3D Printing</span>
+    <span class="tag">Ender 3</span>
+    <span class="tag">PLA</span>
+    <span class="tag">PETG</span>
+    <span class="tag">Humidity</span>
+    <span class="tag">Filament Storage</span>
+  </div>
+
+</div>
+
+<hr class="header-rule" style="max-width:680px;margin:0 auto;">
+
+<div class="post-body">
+
+  <p>
+    The stringing and blobbing that shows up every summer on my Ender 3 isn't a slicer problem, a temperature problem, or a retraction problem. It is a humidity problem.
+  </p>
+
+  <p>
+    I haven't fixed it yet. This is not a guide — it's an attempt to stop misdiagnosing the same failure mode for the fifth season in a row.
+  </p>
+
+  <h2>The thing I kept doing wrong</h2>
+
+  <p>
+    Every time prints started degrading, I went straight into slicer tuning. Retraction up. Temperature down. Slight tweaks that sometimes appeared to help, but never consistently. That pattern was the trap.
+  </p>
+
+  <p>
+    The real variable wasn't in the slicer. It was in the spool. Specifically: how much moisture the filament had absorbed since it was last sealed. That changes continuously with ambient humidity, especially across seasons.
+  </p>
+
+  <p>
+    Once I correlated failures with weather patterns — summer humidity spikes vs. winter stability — the slicer-based explanation stopped holding together.
+  </p>
+
+  <h2>What I think the actual fix looks like</h2>
+
+  <p>
+    This is not implemented yet. It is an architecture problem more than a solution.
+  </p>
+
+  <h3>1. Drying before printing</h3>
+
+  <p>
+    A food dehydrator is the most practical candidate. It is cheap, widely available, and designed to hold sustained low temperatures for long periods. That matches the requirement profile for filament drying.
+  </p>
+
+  <p>
+    The constraint is temperature control. PLA, PETG, and other materials have narrow thermal margins. Excess heat introduces deformation risk while trying to remove moisture. This is a parameter space problem that still needs validation.
+  </p>
+
+  <h3>2. Storage after drying</h3>
+
+  <p>
+    Drying alone is insufficient if the spool immediately returns to a humid environment. Storage needs to be sealed, with desiccant, and ideally monitored.
+  </p>
+
+  <p>
+    A basic hygrometer inside a sealed container is the simplest feedback mechanism. Without measurement, the system is guesswork.
+  </p>
+
+  <h3>3. Printing from a controlled environment</h3>
+
+  <p>
+    The last layer is delivery. Even dry filament can reabsorb moisture during long prints if exposed to ambient air.
+  </p>
+
+  <p>
+    A PTFE passthrough from a sealed dry box to the extruder is the logical extension. Not necessarily required — but potentially necessary in high-humidity conditions.
+  </p>
+
+  <h2>What I'm still not sure about</h2>
+
+  <p>
+    There are still unresolved variables in this system.
+  </p>
+
+  <div class="callout info">
+    <p>
+      How long does a wet spool actually need in a dehydrator before it reaches stable conditions? Most available guidance is inconsistent and highly dependent on filament type and saturation level.
+    </p>
+  </div>
+
+  <div class="callout info">
+    <p>
+      Whether consumer dehydrators are stable enough for repeatable filament drying, or whether dedicated filament dryers are required for consistency.
+    </p>
+  </div>
+
+  <div class="callout info">
+    <p>
+      Whether a sealed storage + drying workflow eliminates the need for active dry-box printing entirely, or if that final step is still necessary in practice.
+    </p>
+  </div>
+
+  <h2>Where this leaves me</h2>
+
+  <p>
+    The humidity diagnosis is not fully proven, but it is strongly supported by seasonal consistency. That alone is progress compared to repeatedly adjusting slicer parameters for a system-level storage problem.
+  </p>
+
+  <p>
+    The next step is building the drying and storage pipeline and measuring outcomes rather than tuning assumptions.
+  </p>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong <br>
+  Built & Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>

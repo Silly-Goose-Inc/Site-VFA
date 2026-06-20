@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Against Platform Dependence — Fisher Armstrong</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A case for owning your stack, self-hosting, and thinking clearly about platform dependence.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --essay: #9b7ecb;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--essay);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 620px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.2rem;
+  margin: 2.6rem 0 0.8rem;
+  font-weight: 600;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  margin: 1.8rem 0;
+  background: rgba(0,0,0,0.03);
+}
+
+.callout.info { border-color: var(--tech); }
+.callout.note { border-color: var(--essay); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 · Essay</div>
+
+<div class="post-header">
+
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a> / <a href="blog.html">blog</a> / platform-dependence
+  </p>
+
+  <p class="post-eyebrow">Systems / Essay</p>
+
+  <h1>Against Platform Dependence: A Case for Owning Your Own Stack</h1>
+
+  <div class="post-meta">
+    <span>January 30, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>5 min read</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+  </div>
+
+</div>
+
+<hr class="header-rule" style="max-width:720px;margin:0 auto;">
+
+<div class="post-body">
+
+<p>
+ok so I finally got Ronnie’s whole stack running the way I actually wanted it, and I’ve been mildly unbearable about it this week. instead of continuing that trend in person, this is the structured version.
+</p>
+
+<p>
+the argument for self-hosting was never purely technical for me. it’s philosophical. and that’s exactly why it’s easy to delay indefinitely — because philosophy doesn’t create urgency the way broken systems do.
+</p>
+
+<p>
+the actual pressure point is simple: anything you depend on that you don’t control is a single point of failure. not theoretically. operationally.
+</p>
+
+<h2>The thing you don’t notice until it changes</h2>
+
+<p>
+platform dependence rarely feels like risk while it’s working. it feels like convenience, because that is the interface layer you’re shown.
+</p>
+
+<p>
+the problem is that stability is conditional. pricing shifts, product sunsets, policy changes — all of it happens outside your control window. you only see the constraint when it triggers.
+</p>
+
+<p>
+at that point, it stops being a design choice and becomes a recovery problem.
+</p>
+
+<h2>Where I actually drew the line</h2>
+
+<p>
+Ronnie — my Ubuntu 24.04 homelab box — now runs a full local stack.
+</p>
+
+<p>
+Nextcloud replaces cloud storage. Jellyfin replaces streaming subscriptions. Paperless-NGX handles documents. Immich stores photos. the arr stack handles media workflows. Pi-hole and Unbound control DNS locally.
+</p>
+
+<p>
+there was a point where a DNS misconfiguration between Pi-hole and Unbound turned into a cascading failure mode, and fixing that loop was probably the most satisfying systems debugging I’ve done all year. not because it was complex, but because it was mine.
+</p>
+
+<div class="callout info">
+<div class="callout-label">Scope boundary</div>
+<p>
+Not everything should be self-hosted. Email is a good example. Deliverability, spam reputation, and infrastructure overhead outweigh the benefit for my use case.
+</p>
+</div>
+
+<h2>Convenience is not the problem</h2>
+
+<p>
+this is not an anti-convenience argument. it’s an anti-invisibility argument.
+</p>
+
+<p>
+the issue is not using platforms. the issue is depending on them without acknowledging that dependence.
+</p>
+
+<p>
+for anything structurally important — work, data, systems that cannot disappear without consequence — the relevant question is not “is this convenient?” but “what happens if this stops existing tomorrow?”
+</p>
+
+<h2>Why this scales poorly as you get smaller</h2>
+
+<p>
+larger organizations have leverage: contracts, SLAs, escalation paths. smaller operators do not.
+</p>
+
+<p>
+for independent systems — personal infrastructure, small projects, early-stage work — platform changes are unilateral. you receive notice after the decision is made.
+</p>
+
+<p>
+that asymmetry is the core reason this matters more at smaller scale, not less.
+</p>
+
+<h2>What actually matters in practice</h2>
+
+<p>
+the hard part is not running docker compose files or standing up services. that is mechanical work.
+</p>
+
+<p>
+the harder part is classification: deciding what is structurally critical versus what is simply convenient.
+</p>
+
+<p>
+once that distinction is clear, the architecture follows.
+</p>
+
+<h2>Closing position</h2>
+
+<p>
+the goal is not total self-hosting. that becomes its own form of dependence, just redirected inward.
+</p>
+
+<p>
+the goal is constraint awareness: knowing what you rely on, why you rely on it, and what you would do if it disappeared.
+</p>
+
+<p>
+Ronnie’s stack exists because a subset of systems crossed that threshold for me. everything else remains negotiable.
+</p>
+
+<p>
+that line will move over time. it should.
+</p>
+
+<p>
+what matters is that it is drawn deliberately, not implicitly.
+</p>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong<br>
+  Built & Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>

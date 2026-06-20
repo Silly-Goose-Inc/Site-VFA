@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A Year on Arch: What I Got Right, What I Got Wrong, and What I'd Tell Myself</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A one-year retrospective on running Arch Linux on a 2017 iMac, covering setup decisions, workflow changes, photography pipeline challenges, dev stack stability, and lessons learned.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --motor:  #c9a800;
+  --warn:   #b85c1a;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tech);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.1rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 600px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2.8rem 0 0.9rem;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 1.8rem 0;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.callout.warn  { border-color: var(--warn); background: rgba(184,92,26,0.07); }
+.callout.info  { border-color: var(--tech); background: rgba(47,111,178,0.07); }
+.callout.note  { border-color: var(--motor); background: rgba(201,168,0,0.07); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 - Friday, June 19th</div>
+
+<div class="post-header">
+
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a><span>/</span>
+    <a href="blog.html">blog</a><span>/</span>
+    a-year-on-arch-retrospective
+  </p>
+
+  <p class="post-eyebrow">Tech · Linux · Systems</p>
+
+  <h1>A Year on Arch: What I Got Right, What I Got Wrong, and What I'd Tell Myself</h1>
+
+  <div class="post-meta">
+    <span>March 28, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+    <span class="post-meta-dot"></span>
+    <span>~8 min read</span>
+  </div>
+
+  <div class="post-tags">
+    <span class="tag">Arch Linux</span>
+    <span class="tag">iMac</span>
+    <span class="tag">Workflow</span>
+    <span class="tag">Photography</span>
+    <span class="tag">DevOps</span>
+  </div>
+
+</div>
+
+<hr class="header-rule" style="max-width:680px;margin:0 auto;">
+
+<div class="post-body">
+
+  <p>Moving a 2017 iMac to Arch Linux was not the path of least resistance. It was, however, the correct decision. A year in, the system has settled into something stable enough to forget about, which is usually the goal.</p>
+
+  <p>This is a retrospective of what actually worked, what didn’t, and what would be done differently with hindsight.</p>
+
+  <h2>Why an iMac, of all things</h2>
+
+  <p>The decision was not motivated by novelty. The hardware was already available and still capable. The previous setup (Pop!_OS) functioned, but “functioning” was not the requirement.</p>
+
+  <p>The objective was control: understanding the system from the ground up rather than inheriting defaults and abstractions.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Design Constraint</div>
+    <p>Arch was chosen specifically to avoid hidden system decisions and enforce explicit configuration.</p>
+  </div>
+
+  <h2>What I Got Right</h2>
+
+  <h3>KDE Plasma immediately</h3>
+  <p>No experimentation phase. Plasma was already familiar, configurable, and predictable. A year later, the configuration still matches the original intent.</p>
+
+  <h3>Using an AUR helper early (paru)</h3>
+  <p>Package access became a non-issue. The AUR effectively eliminated friction for tooling that would otherwise require manual builds.</p>
+
+  <h3>Not forcing a macOS-like interface</h3>
+  <p>Attempts to replicate previous UI paradigms would have introduced unnecessary friction. Plasma was treated as its own environment rather than something to reshape into a prior system.</p>
+
+  <h3>Separating homelab and daily driver</h3>
+  <p>Production services remained on a separate machine. This avoided coupling system updates with service uptime risk.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Structural Decision</div>
+    <p>Decoupling workloads prevented update anxiety from becoming operational friction.</p>
+  </div>
+
+  <h2>What I Got Wrong</h2>
+
+  <h3>Underestimating photography workflow migration</h3>
+  <p>RAW processing and culling were not drop-in replacements. The tooling existed, but the workflow required rebuilding rather than porting.</p>
+
+  <h3>Assuming Arch would never require recovery time</h3>
+  <p>Nothing broke catastrophically, but updates occasionally required manual intervention. No rollback plan was initially documented.</p>
+
+  <h3>Not documenting configuration decisions</h3>
+  <p>Several months later, system behavior had to be reconstructed from memory and dotfiles. This became the largest avoidable time cost.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">Failure Mode</div>
+    <p>Undocumented configuration turns into future reverse engineering.</p>
+  </div>
+
+  <h2>The Dev Stack Under Load</h2>
+
+  <p>Across Python, JavaScript, C, and Docker workflows, Arch never became a bottleneck. Package availability was either immediate or resolved through AUR access.</p>
+
+  <p>The primary discipline required was procedural: not running full system upgrades without reviewing changes.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Operational Note</div>
+    <p>Rolling release systems require attention, not automation bias.</p>
+  </div>
+
+  <h2>What I’d Tell Myself</h2>
+
+  <p>Document configuration decisions immediately. Treat photography workflow migration as a project, not a side effect. Do not assume familiarity translates across operating systems.</p>
+
+  <p>Most importantly, accept that Arch is not fragile, but it is explicit. That distinction matters more than initial setup time.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Final State</div>
+    <p>One year later, the system remains the daily driver. The only real improvement would have been faster documentation discipline.</p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong · Built & Maintained by FishTankTech
+</footer>
+
+</body>
+</html>

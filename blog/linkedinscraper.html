@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Building a LinkedIn Data Pipeline Without Getting Banned</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A practical exploration of building a LinkedIn data pipeline at scale, and why reliability matters more than scraping itself.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --motor:  #c9a800;
+  --warn:   #b85c1a;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tech);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.1rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2.8rem 0 0.9rem;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 1.8rem 0;
+}
+
+.callout p { margin: 0; font-size: 0.92rem; }
+
+.callout.info { border-color: var(--tech); background: rgba(47,111,178,0.07); }
+.callout.note { border-color: var(--motor); background: rgba(201,168,0,0.07); }
+.callout.warn { border-color: var(--warn); background: rgba(184,92,26,0.07); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6rem 0;
+  font-size: 0.875rem;
+}
+
+.spec-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.spec-table td:first-child {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+  width: 40%;
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+
+<body>
+
+<div class="version">2026 - June 19</div>
+
+<div class="post-header">
+
+  <p class="breadcrumb">
+    fisherarmstrong <span>/</span> blog <span>/</span> linkedin-data-pipeline-without-getting-banned
+  </p>
+
+  <p class="post-eyebrow">Data Engineering</p>
+
+  <h1>Building a LinkedIn Data Pipeline Without Getting Banned</h1>
+
+  <div class="post-meta">
+    <span>June 19, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+    <span class="post-meta-dot"></span>
+    <span>~8 min read</span>
+  </div>
+
+  <div class="post-tags">
+    <span class="tag">Scraping</span>
+    <span class="tag">Infrastructure</span>
+    <span class="tag">Data</span>
+    <span class="tag">Systems</span>
+    <span class="tag">LinkedIn</span>
+  </div>
+
+</div>
+
+<hr class="header-rule" style="max-width:680px;margin:0 auto;">
+
+<div class="post-body">
+
+  <p>Start with a simple request:</p>
+
+  <p><strong>Pull roughly 3,000 LinkedIn profiles.</strong></p>
+
+  <p>At first glance, it looks trivial. A script, a browser automation tool, maybe a proxy rotation layer. Done in a weekend.</p>
+
+  <p>That assumption breaks almost immediately.</p>
+
+  <p>The real question is not whether data can be extracted once.</p>
+
+  <p>It’s whether it can still be extracted in three months without the system collapsing.</p>
+
+  <h2>The Internet’s Favorite Lie</h2>
+
+  <h3>The Reddit Version</h3>
+  <ul>
+    <li>Spin up Playwright</li>
+    <li>Rotate proxies</li>
+    <li>Use throwaway accounts</li>
+    <li>Problem solved</li>
+  </ul>
+
+  <h3>The Enterprise Version</h3>
+  <ul>
+    <li>It’s impossible</li>
+    <li>Legal says no</li>
+    <li>Don’t touch it</li>
+  </ul>
+
+  <p>Neither is accurate.</p>
+
+  <p>LinkedIn data extraction is possible. It is also not stable, not cheap, and not passive.</p>
+
+  <h2>The Actual Requirements</h2>
+
+  <table class="spec-table">
+    <tr>
+      <td>~3,000 profiles</td>
+      <td>Moderate scale workload</td>
+    </tr>
+    <tr>
+      <td>Consistent delivery</td>
+      <td>Harder than initial extraction</td>
+    </tr>
+    <tr>
+      <td>Repeatability</td>
+      <td>Core requirement</td>
+    </tr>
+    <tr>
+      <td>Low legal exposure</td>
+      <td>Non-negotiable constraint</td>
+    </tr>
+    <tr>
+      <td>Minimal bans</td>
+      <td>Operational requirement</td>
+    </tr>
+    <tr>
+      <td>Structured output</td>
+      <td>Final product format</td>
+    </tr>
+  </table>
+
+  <p>The problem stops being scraping.</p>
+
+  <p>It becomes system design under adversarial conditions.</p>
+
+  <h2>The First Question Isn’t Technical</h2>
+
+  <p>It is operational:</p>
+
+  <div class="callout info">
+    <div class="callout-label">Core Question</div>
+    <p>What happens when this works?</p>
+  </div>
+
+  <p>If the answer is “we run it once,” the architecture is simple and disposable.</p>
+
+  <p>If the answer is “this becomes part of a business process,” everything changes.</p>
+
+  <h2>Option One: DIY Scraping</h2>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Low cost</li>
+    <li>Fast prototype cycle</li>
+    <li>Full control</li>
+  </ul>
+
+  <h3>Failure Modes</h3>
+  <ul>
+    <li>Browser fingerprinting</li>
+    <li>Authentication instability</li>
+    <li>CAPTCHA enforcement</li>
+    <li>Session invalidation</li>
+    <li>Account bans</li>
+    <li>Ongoing maintenance burden</li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="callout-label">Operational Reality</div>
+    <p>Every successful scraper eventually becomes a browser engineering system.</p>
+  </div>
+
+  <h2>Browser Fingerprinting</h2>
+
+  <p>IP-based thinking is outdated.</p>
+
+  <p>Modern detection systems evaluate behavior patterns:</p>
+
+  <ul>
+    <li>Mouse movement consistency</li>
+    <li>Timing distributions</li>
+    <li>Canvas fingerprint signatures</li>
+    <li>WebGL rendering differences</li>
+    <li>Font stacks</li>
+    <li>Extension fingerprints</li>
+    <li>Local storage history</li>
+    <li>Session entropy</li>
+  </ul>
+
+  <p>The system is less about identity and more about behavioral plausibility.</p>
+
+  <h2>Proxies Are Not a Solution</h2>
+
+  <table class="spec-table">
+    <tr>
+      <td>Datacenter</td>
+      <td>Cheap, high detection risk</td>
+    </tr>
+    <tr>
+      <td>Residential</td>
+      <td>Balanced cost and stealth</td>
+    </tr>
+    <tr>
+      <td>Mobile</td>
+      <td>Highest trust, highest cost</td>
+    </tr>
+  </table>
+
+  <div class="callout note">
+    <div class="callout-label">Key Constraint</div>
+    <p>Proxies do not fix bad automation. They only delay failure.</p>
+  </div>
+
+  <h2>Option Two: Managed Providers</h2>
+
+  <p>Services like structured data APIs exist for a reason.</p>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li>Predictable output</li>
+    <li>Reduced maintenance</li>
+    <li>Operational stability</li>
+  </ul>
+
+  <h3>Tradeoffs</h3>
+  <ul>
+    <li>Higher direct cost</li>
+    <li>Rate limits</li>
+    <li>Reduced flexibility</li>
+  </ul>
+
+  <h3>Economic Reality</h3>
+
+  <p>A $300/month API looks expensive until internal labor is considered.</p>
+
+  <p>Engineering time spent on bans, rotations, and recovery quickly exceeds the subscription cost.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Hidden Cost</div>
+    <p>Maintenance is the real expense in scraping systems, not infrastructure.</p>
+  </div>
+
+  <h2>Rate Limiting</h2>
+
+  <p>Rate limits are not obstacles. They are system constraints that ensure platform survival.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Design Principle</div>
+    <p>The pipeline’s job is not to go fast. It is to complete reliably.</p>
+  </div>
+
+  <h2>The 3,000 Profile Evolution</h2>
+
+  <ul>
+    <li><strong>Initial question:</strong> How do we scrape LinkedIn?</li>
+    <li><strong>Next iteration:</strong> How do we extract data reliably?</li>
+    <li><strong>Operational phase:</strong> How do we avoid breaking systems at scale?</li>
+    <li><strong>Final form:</strong> How do we make this boring?</li>
+  </ul>
+
+  <p>Boring systems are stable systems.</p>
+
+  <h2>What I Learned</h2>
+
+  <div class="callout note">
+    <div class="callout-label">Engineering Maturity</div>
+    <p>
+      The best solution is rarely the most interesting one.
+      Reliability scales. Cleverness does not.
+    </p>
+  </div>
+
+  <h2>The Verdict</h2>
+
+  <p>This started as a technical problem.</p>
+
+  <p>It resolved into an operational one.</p>
+
+  <p>LinkedIn scraping is not impossible. It is simply misunderstood.</p>
+
+  <p>Short-term extraction is easy. Long-term sustainability is not.</p>
+
+  <p>If the goal is a one-time export, shortcuts work.</p>
+
+  <p>If the goal is a production system that survives organizational and platform constraints, the boring approach wins.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Closing Thought</div>
+    <p>Good engineering is not about maximizing complexity. It is about eliminating friction until nothing breaks.</p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong <br>
+  Built & Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>
