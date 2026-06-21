@@ -1,535 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Defunct Projects — Fisher Armstrong</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Raw half-formed ideas, and the ones that did NOT work out.">
+  <meta charset="utf-8">
+  <title>Defunct Projects — Fisher Armstrong</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Raw half-formed ideas, and the ones that did NOT work out.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --ink: #161616;
-  --paper: #f4f1ea;
-  --muted: #5c5c5c;
+  <style>
+    /* ============================================================
+       ROOT VARIABLES
+       ============================================================ */
+    :root {
+      --ink: #161616;
+      --paper: #f4f1ea;
+      --muted: #5c5c5c;
 
-  --dead:     #b03030;
-  --stalled:  #c9a800;
-  --fragment: #6b6b6b;
+      --dead:     #b03030;
+      --stalled:  #c9a800;
+      --fragment: #6b6b6b;
+      --built:    #2f7a4f;
 
-  --dark:   #1c1c22;
-  --dark-2: #26262e;
-}
+      --dark:   #1c1c22;
+      --dark-2: #26262e;
+    }
 
-* { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
-    var(--paper);
-  background-size: 32px 32px;
-  color: var(--ink);
-  line-height: 1.6;
-}
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+        var(--paper);
+      background-size: 32px 32px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
 
-a { text-decoration: none; color: inherit; }
-h1, h2, h3 { margin: 0; }
-p { margin: 0; }
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3 { margin: 0; }
+    p { margin: 0; }
 
-/* ── VERSION TAG ── */
-.version {
-  position: fixed;
-  top: 14px; right: 14px;
-  background: var(--dark);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-  z-index: 100;
-}
+    /* ============================================================
+       VERSION TAG
+       ============================================================ */
+    .version {
+      position: fixed;
+      top: 14px; right: 14px;
+      background: var(--dark);
+      color: #fff;
+      padding: 6px 12px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      z-index: 100;
+    }
 
-/* ── PAGE HEADER ── */
-.page-header {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 60px 28px 0;
-}
+    /* ============================================================
+       PAGE HEADER
+       ============================================================ */
+    .page-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 28px 0;
+    }
 
-.breadcrumb {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-  margin-bottom: 1.4rem;
-}
-.breadcrumb a { color: var(--muted); }
-.breadcrumb a:hover { color: var(--ink); }
-.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+    .breadcrumb {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.4rem;
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb span { margin: 0 6px; opacity: 0.4; }
 
-.page-header h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1.15;
-  margin-bottom: 0.5rem;
-}
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
 
-.page-header .subtitle {
-  font-size: 0.95rem;
-  color: var(--muted);
-  max-width: 520px;
-  margin-bottom: 0.4rem;
-}
+    .page-header .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 0.4rem;
+    }
 
-.last-updated {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.72rem;
-  color: var(--muted);
-  opacity: 0.6;
-  margin-bottom: 2.5rem;
-}
+    .last-updated {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.6;
+      margin-bottom: 2.5rem;
+    }
 
-.header-rule {
-  border: none;
-  border-top: 1px solid rgba(0,0,0,0.12);
-  margin: 0;
-}
+    .header-rule {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.12);
+      margin: 0;
+    }
 
-/* ── LAYOUT ── */
-.layout {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 52px 28px 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
-}
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 52px 28px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
 
-/* ── SECTION LABEL ── */
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 1.6rem;
-}
+    /* ============================================================
+       SECTION LABEL (divider style)
+       ============================================================ */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.6rem;
+    }
 
-.section-label h2 {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  white-space: nowrap;
-}
+    .section-label h2 {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 500;
+      white-space: nowrap;
+    }
 
-.accent-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+    .accent-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
 
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(0,0,0,0.10);
-}
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(0,0,0,0.10);
+    }
 
-.dot-dead     { background: var(--dead); }
-.dot-stalled  { background: var(--stalled); }
-.dot-fragment { background: var(--fragment); }
+    .dot-dead     { background: var(--dead); }
+    .dot-stalled  { background: var(--stalled); }
+    .dot-fragment { background: var(--fragment); }
+    .dot-built    { background: var(--built); }
 
-/* ── ITEM ROW ── */
-.item-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+    /* ============================================================
+       ITEM ROW
+       ============================================================ */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-.item {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 0 24px;
-  padding: 18px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  align-items: start;
-}
+    .item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      align-items: start;
+    }
 
-.item:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
+    .item:first-child { border-top: 1px solid rgba(0,0,0,0.07); }
 
-@media (max-width: 560px) {
-  .item { grid-template-columns: 1fr; gap: 6px; }
-}
+    @media (max-width: 560px) {
+      .item { grid-template-columns: 1fr; gap: 6px; }
+    }
 
-.item-label {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--muted);
-  padding-top: 3px;
-}
+    .item-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      padding-top: 3px;
+    }
 
-/* ── ITEM CONTENT ── */
-.item-name {
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-}
+    /* ── item content ── */
+    .item-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
 
-.item-tagline {
-  font-size: 0.82rem;
-  color: var(--muted);
-  font-style: italic;
-  margin-bottom: 0.5rem;
-}
+    .item-tagline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
 
-.item-meta {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.68rem;
-  color: var(--muted);
-  opacity: 0.75;
-  margin-bottom: 0.6rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.2rem;
-}
+    .item-meta {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.75;
+      margin-bottom: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.2rem;
+    }
 
-.item-desc {
-  font-size: 0.875rem;
-  color: var(--muted);
-  line-height: 1.65;
-  max-width: 540px;
-  margin-bottom: 0.75rem;
-}
+    .item-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 540px;
+      margin-bottom: 0.75rem;
+    }
 
-/* ── POSTMORTEM ── */
-.pm-block {
-  border-left: 2px solid rgba(0,0,0,0.10);
-  padding-left: 12px;
-  margin-top: 0.5rem;
-}
+    /* ============================================================
+       POSTMORTEM / LEGACY BLOCK
+       ============================================================ */
+    .pm-block {
+      border-left: 2px solid rgba(0,0,0,0.10);
+      padding-left: 12px;
+      margin-top: 0.5rem;
+    }
 
-.pm-label {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  opacity: 0.7;
-  margin-bottom: 0.35rem;
-}
+    .pm-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.7;
+      margin-bottom: 0.35rem;
+    }
 
-.pm-body {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.65;
-  max-width: 520px;
-  margin-bottom: 0.6rem;
-}
+    .pm-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 520px;
+      margin-bottom: 0.6rem;
+    }
 
-.pm-list {
-  list-style: none;
-  padding: 0; margin: 0;
-}
+    .pm-list {
+      list-style: none;
+      padding: 0; margin: 0;
+    }
 
-.pm-list li {
-  font-size: 0.82rem;
-  color: var(--muted);
-  padding: 0.15rem 0;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
+    .pm-list li {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 0.15rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
 
-.pm-list li::before {
-  content: "—";
-  opacity: 0.35;
-  flex-shrink: 0;
-  font-family: "IBM Plex Mono", monospace;
-}
+    .pm-list li::before {
+      content: "—";
+      opacity: 0.35;
+      flex-shrink: 0;
+      font-family: "IBM Plex Mono", monospace;
+    }
 
-/* ── STATUS TAGS ── */
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
+    /* ============================================================
+       STATUS TAGS
+       ============================================================ */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
 
-.status-tag {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.62rem;
-  padding: 3px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
+    .status-tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.62rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
 
-.tag-dead     { background: rgba(176,48,48,0.12);  color: #8a1c1c; }
-.tag-stalled  { background: rgba(201,168,0,0.13);  color: #7a6100; }
-.tag-fragment { background: rgba(107,107,107,0.12); color: #444; }
+    .tag-dead     { background: rgba(176,48,48,0.12);  color: #8a1c1c; }
+    .tag-stalled  { background: rgba(201,168,0,0.13);  color: #7a6100; }
+    .tag-fragment { background: rgba(107,107,107,0.12); color: #444; }
+    .tag-built    { background: rgba(47,122,79,0.13);   color: #1d5536; }
 
-/* ── CLOSING ── */
-.closing {
-  font-size: 0.85rem;
-  color: var(--muted);
-  font-style: italic;
-  border-top: 1px solid rgba(0,0,0,0.09);
-  padding-top: 1.5rem;
-  line-height: 1.7;
-}
+    /* ============================================================
+       CLOSING
+       ============================================================ */
+    .closing {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      border-top: 1px solid rgba(0,0,0,0.09);
+      padding-top: 1.5rem;
+      line-height: 1.7;
+    }
 
-.closing a {
-  color: var(--muted);
-  border-bottom: 1px solid rgba(0,0,0,0.15);
-}
-.closing a:hover { color: var(--ink); }
+    .closing a {
+      color: var(--muted);
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+    .closing a:hover { color: var(--ink); }
 
-/* ── FOOTER ── */
-footer {
-  background: var(--dark);
-  color: rgba(255,255,255,0.5);
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 0.82rem;
-  font-family: "IBM Plex Mono", monospace;
-}
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.82rem;
+      font-family: "IBM Plex Mono", monospace;
+    }
 
-@media (max-width: 600px) {
-  .page-header { padding: 40px 18px 0; }
-  .layout { padding: 40px 18px 60px; }
-  .page-header h1 { font-size: 1.65rem; }
-}
-</style>
+    @media (max-width: 600px) {
+      .page-header { padding: 40px 18px 0; }
+      .layout { padding: 40px 18px 60px; }
+      .page-header h1 { font-size: 1.65rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="version">build 11.4.6</div>
+  <div class="version">build 11.4.6</div>
 
-<div class="page-header">
-  <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>defunct</p>
-  <h1>Defunct Projects</h1>
-  <p class="subtitle">Raw half-formed ideas, and the ones that did NOT work out. No spin.</p>
-  <p class="last-updated">Last updated — June 2026</p>
-</div>
-<hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
+  <!-- ================================================================
+       PAGE HEADER
+       ================================================================ -->
+  <div class="page-header">
+    <p class="breadcrumb"><a href="index.html">fisherarmstrong</a><span>/</span>defunct</p>
+    <h1>Defunct Projects</h1>
+    <p class="subtitle">Raw half-formed ideas, and the ones that did NOT work out. No spin.</p>
+    <p class="last-updated">Last updated — June 2026</p>
+  </div>
+  <hr class="header-rule" style="max-width:760px;margin:0 auto 0;">
 
-<div class="layout">
+  <div class="layout">
 
-  <!-- ═══════════════════════════════════ -->
-  <!-- KILLED -->
-  <!-- ═══════════════════════════════════ -->
-  <section>
-    <div class="section-label">
-      <span class="accent-dot dot-dead"></span>
-      <h2>Killed</h2>
-    </div>
-
-    <div class="item-list">
-
-      <div class="item">
-        <span class="item-label">DebateDaily</span>
-        <div class="item-content">
-          <div class="item-name">DebateDaily</div>
-          <p class="item-tagline">A daily structured debate platform built to keep argument skills sharp.</p>
-          <div class="item-meta">
-            <span>Web App / Civic Tech</span>
-            <span>HTML · CSS · JS</span>
-            <span>2023 – 2024</span>
-          </div>
-          <p class="item-desc">Daily structured debate prompts — one topic, two sides, timed rounds. Built to keep formal argumentation sharp outside a school context. The friction of finding a partner and a topic was real; the intent was to remove it.</p>
-          <div class="pm-block">
-            <div class="pm-label">Post-Mortem</div>
-            <p class="pm-body">Retention without stakes. Structured debate only works when both parties are invested — solo drill tools don't replicate that. Built the UI, got the prompt engine running, used it about four times personally. Every session felt like shadowboxing in an empty gym. Competing priorities at school finished it off.</p>
-            <ul class="pm-list">
-              <li>Prompt engine and timer worked correctly</li>
-              <li>Solo use case never justified the overhead</li>
-              <li>No traction, no iteration loop, no reason to continue</li>
-            </ul>
-          </div>
-          <div class="tag-row"><span class="status-tag tag-dead">Dead</span></div>
-        </div>
+    <!-- ================================================================
+         SECTION: DEAD
+         ================================================================ -->
+    <section>
+      <div class="section-label">
+        <span class="accent-dot dot-dead"></span>
+        <h2>Dead</h2>
       </div>
 
-      <div class="item">
-        <span class="item-label">Appalachian Mfg. Co.</span>
-        <div class="item-content">
-          <div class="item-name">Appalachian Manufacturing Co.</div>
-          <p class="item-tagline">Small-batch fabrication and goods out of the NC High Country.</p>
-          <div class="item-meta">
-            <span>Physical Product / Fabrication</span>
-            <span>Ender 3 · Cameo 2 · Inkscape</span>
-            <span>2022 – 2024</span>
+      <div class="item-list">
+
+        <!-- ---------- DebateDaily ---------- -->
+        <div class="item">
+          <span class="item-label">DebateDaily</span>
+          <div class="item-content">
+            <div class="item-name">DebateDaily</div>
+
+            <p class="item-tagline">
+              Free national-circuit resources built by a small-program debater who didn't have them.
+            </p>
+
+            <div class="item-meta">
+              <span>Debate Education / Independent Media</span>
+              <span>HTML · CSS · JS</span>
+              <span>2022 – 2024</span>
+            </div>
+
+            <p class="item-desc">
+              DebateDaily was a free resource hub for competitive Policy (CX) and Public Forum (PF) debate,
+              co-founded with Christina H. after years of building a debate program from the ground up at a
+              small high school. As the program's founder and only four-year competitor, I knew how difficult
+              it could be for regional teams to access the institutional knowledge that larger programs took
+              for granted. We set out to close that gap through practical resources, candid writing, and the
+              kind of advice we wished we'd had ourselves.
+            </p>
+
+            <p class="item-desc">
+              The site published daily and near-daily commentary on competitive debate while hosting evidence
+              files, case resources, drills, topic analyses, exercises, speech tools, coaching materials, and
+              reference guides. Everything was offered freely. Although it operated alongside my private
+              coaching work and other debate ventures, DebateDaily itself was never monetized.
+            </p>
+
+            <div class="pm-block">
+              <div class="pm-label">Post-Mortem</div>
+
+              <p class="pm-body">
+                DebateDaily became the first project I built that genuinely found an audience. Over its
+                lifetime, it accumulated roughly 5,000 visitors, more than 300 shared files, around 30
+                published articles, and a suite of practice tools used by students and coaches across
+                programs much larger than my own. I learned that impact and sustainability are different
+                skills. The mission remained meaningful, but daily publishing, community expectations,
+                school obligations, and my eventual hiatus from competitive debate made the pace impossible
+                to maintain.
+              </p>
+
+              <p class="pm-body">
+                Looking back, I'm proud that we tried to do the right thing: make high-quality debate
+                resources more accessible to the students and coaches who needed them most. If I rebuilt it
+                today, I would move slower, publish more intentionally, and design it for longevity rather
+                than momentum.
+              </p>
+
+              <ul class="pm-list">
+                <li>~5,000 visitors reached without advertising or monetization</li>
+                <li>300+ freely shared files and resources</li>
+                <li>30+ articles covering strategy, topics, and debate culture</li>
+                <li>10+ practice tools and exercises built for real competitors</li>
+                <li>Proof that small programs can create resources that matter nationally</li>
+              </ul>
+            </div>
+
+            <div class="tag-row">
+              <span class="status-tag tag-dead">Dead</span>
+            </div>
           </div>
-          <p class="item-desc">Small-batch goods out of the NC High Country — 3D printed parts, vinyl-cut stickers, small custom hardware runs. "Appalachian" was doing real work in the branding: things made here, by hand, in the mountains, not drop-shipped.</p>
-          <div class="pm-block">
-            <div class="pm-label">Post-Mortem</div>
-            <p class="pm-body">Didn't survive contact with the unit economics. Small-batch physical goods have real COGs: filament, vinyl stock, time, packaging, shipping. Margins thin enough that the throughput required is incompatible with a one-person shop with three other things going on. FishStix Creatives absorbed the vinyl/sticker portion; the rest quietly dissolved.</p>
-            <ul class="pm-list">
-              <li>Product quality was fine — economics weren't</li>
-              <li>Throughput requirements incompatible with current capacity</li>
-              <li>Sticker / vinyl work spun off into FishStix Creatives</li>
-              <li>Fabrication capability preserved and redirected, not lost</li>
-            </ul>
-          </div>
-          <div class="tag-row"><span class="status-tag tag-dead">Dead</span></div>
         </div>
+
+        <!-- ---------- Appalachian Manufacturing Co. ---------- -->
+        <div class="item">
+          <span class="item-label">Appalachian Mfg. Co.</span>
+          <div class="item-content">
+            <div class="item-name">Appalachian Manufacturing Co.</div>
+            <p class="item-tagline">Small-batch fabrication and goods out of the NC High Country.</p>
+            <div class="item-meta">
+              <span>Physical Product / Fabrication</span>
+              <span>Ender 3 · Cameo 2 · Inkscape</span>
+              <span>2022 – 2024</span>
+            </div>
+            <p class="item-desc">
+              Small-batch goods out of the NC High Country — 3D printed parts, vinyl-cut stickers, small
+              custom hardware runs. "Appalachian" was doing real work in the branding: things made here, by
+              hand, in the mountains, not drop-shipped.
+            </p>
+            <div class="pm-block">
+              <div class="pm-label">Post-Mortem</div>
+              <p class="pm-body">
+                Didn't survive contact with the unit economics. Small-batch physical goods have real COGs:
+                filament, vinyl stock, time, packaging, shipping. Margins thin enough that the throughput
+                required is incompatible with a one-person shop with three other things going on. FishStix
+                Creatives absorbed the vinyl/sticker portion; the rest quietly dissolved.
+              </p>
+              <ul class="pm-list">
+                <li>Product quality was fine — economics weren't</li>
+                <li>Throughput requirements incompatible with current capacity</li>
+                <li>Sticker / vinyl work spun off into FishStix Creatives</li>
+                <li>Fabrication capability preserved and redirected, not lost</li>
+              </ul>
+            </div>
+            <div class="tag-row"><span class="status-tag tag-dead">Dead</span></div>
+          </div>
+        </div>
+
+        <!-- ---------- FishSTIX Creatives ---------- -->
+        <div class="item">
+          <span class="item-label">FishSTIX Creatives</span>
+          <div class="item-content">
+            <div class="item-name">FishSTIX Creatives</div>
+            <p class="item-tagline">Stickers, graphics, and assorted small-batch visual experiments.</p>
+            <div class="item-meta">
+              <span>Design / Print / Vinyl</span>
+              <span>Cameo 2 · Inkscape · Silhouette Studio</span>
+              <span>2024 – 2025</span>
+            </div>
+            <p class="item-desc">
+              Spun out of Appalachian Manufacturing Co. to give the vinyl and print work its own identity.
+              The idea was to keep creative output separate from the fabrication side and build a small
+              catalog of original designs.
+            </p>
+            <div class="pm-block">
+              <div class="pm-label">Post-Mortem</div>
+              <p class="pm-body">
+                Inherited the same structural problem as its parent. A sticker shop needs either a large
+                catalog with consistent demand or a connected audience to sell into — FishSTIX had neither
+                in sufficient quantity. The design capability lives on inside Activism Motorsports and
+                personal projects. The storefront does not.
+              </p>
+              <ul class="pm-list">
+                <li>Design work and toolchain preserved — still in active use elsewhere</li>
+                <li>Storefront economics never closed</li>
+                <li>Absorbed back into the broader fabrication context</li>
+              </ul>
+            </div>
+            <div class="tag-row"><span class="status-tag tag-dead">Dead</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION: LEGACY (graduated / completed, not "defunct" in the
+         failure sense — kept here as the historical record)
+         ================================================================ -->
+    <section>
+      <div class="section-label">
+        <span class="accent-dot dot-built"></span>
+        <h2>Legacy</h2>
       </div>
 
-      <div class="item">
-        <span class="item-label">FishSTIX Creatives</span>
-        <div class="item-content">
-          <div class="item-name">FishSTIX Creatives</div>
-          <p class="item-tagline">Stickers, graphics, and assorted small-batch visual experiments.</p>
-          <div class="item-meta">
-            <span>Design / Print / Vinyl</span>
-            <span>Cameo 2 · Inkscape · Silhouette Studio</span>
-            <span>2024 – 2025</span>
+      <div class="item-list">
+
+        <!-- ---------- TCRSD ---------- -->
+        <div class="item">
+          <span class="item-label">TCRSD</span>
+          <div class="item-content">
+            <div class="item-name">T.C. Roberson Speech &amp; Debate (TCRSD)</div>
+
+            <p class="item-tagline">
+              We proved that a small public school without a coach belonged on the national stage.
+            </p>
+
+            <div class="item-meta">
+              <span>Education / Institution Building</span>
+              <span>Founder · President · Captain</span>
+              <span>2021 – 2025</span>
+            </div>
+
+            <p class="item-desc">
+              TCRSD began after Leo Hu transferred from a nationally competitive South Carolina speech
+              program and discovered that T.C. Roberson High School had no speech and debate team of its
+              own. Together, we founded the first program in school history. Christina H. joined almost
+              immediately and became instrumental in shaping the team's speech culture, student leadership,
+              and mentorship.
+            </p>
+
+            <p class="item-desc">
+              What started as a handful of students evolved into a fully functioning forensic program
+              competing in Policy (CX), Public Forum (PF), Lincoln-Douglas, Congressional Debate, and speech
+              events through NSDA, NCFL, and TOC circuits. Without a dedicated coach, students built the
+              infrastructure themselves: recruiting members, securing approval, fundraising, organizing
+              transportation, registering entries, coaching novices, writing curriculum, running practices,
+              communicating with parents, and keeping the program alive year after year.
+            </p>
+
+            <div class="pm-block">
+              <div class="pm-label">Legacy</div>
+
+              <p class="pm-body">
+                For four years, I was the only student who competed continuously from the program's founding
+                through graduation. During that time, I served in various capacities as President, Debate
+                Captain, coach, mentor, private instructor, and tournament director while balancing the
+                responsibilities of being a full-time student. The experience taught me nearly everything I
+                know about leadership: institutions are built through consistency, not charisma.
+              </p>
+
+              <p class="pm-body">
+                Against every reasonable expectation, a coachless startup club from a public high school
+                grew into a nationally competitive program. TCRSD qualified students to the NSDA National
+                Tournament on three separate occasions, produced NCFL national qualifiers, earned recognition
+                at district and state competitions, introduced dozens of novices to competitive speaking,
+                and hosted the official Carolina West NSDA District Qualifier during its first year of
+                existence. Most importantly, it created a place where students could find their voices and
+                discover that they belonged in rooms they had once assumed were reserved for someone else.
+              </p>
+
+              <ul class="pm-list">
+                <li>Founded the first speech and debate team in T.C. Roberson High School history</li>
+                <li>Grew the organization to approximately 35 members with 15 active competitors</li>
+                <li>Qualified students to NSDA Nationals three times and produced NCFL national qualifiers</li>
+                <li>Hosted the official Carolina West NSDA District Qualifier during the program's first year</li>
+                <li>Competed all four years while serving as President and Debate Captain</li>
+                <li>Built a sustainable culture that continues to exist beyond its founders</li>
+              </ul>
+            </div>
+
+            <div class="tag-row">
+              <span class="status-tag tag-built">Legacy</span>
+            </div>
           </div>
-          <p class="item-desc">Spun out of Appalachian Manufacturing Co. to give the vinyl and print work its own identity. The idea was to keep creative output separate from the fabrication side and build a small catalog of original designs.</p>
-          <div class="pm-block">
-            <div class="pm-label">Post-Mortem</div>
-            <p class="pm-body">Inherited the same structural problem as its parent. A sticker shop needs either a large catalog with consistent demand or a connected audience to sell into — FishSTIX had neither in sufficient quantity. The design capability lives on inside Activism Motorsports and personal projects. The storefront does not.</p>
-            <ul class="pm-list">
-              <li>Design work and toolchain preserved — still in active use elsewhere</li>
-              <li>Storefront economics never closed</li>
-              <li>Absorbed back into the broader fabrication context</li>
-            </ul>
-          </div>
-          <div class="tag-row"><span class="status-tag tag-dead">Dead</span></div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION: STALLED
+         ================================================================ -->
+    <section>
+      <div class="section-label">
+        <span class="accent-dot dot-stalled"></span>
+        <h2>Stalled</h2>
       </div>
 
-    </div>
-  </section>
+      <div class="item-list">
 
-  <!-- ═══════════════════════════════════ -->
-  <!-- STALLED -->
-  <!-- ═══════════════════════════════════ -->
-  <section>
-    <div class="section-label">
-      <span class="accent-dot dot-stalled"></span>
-      <h2>Stalled</h2>
-    </div>
-
-    <div class="item-list">
-
-      <div class="item">
-        <span class="item-label">N.O.V.A.</span>
-        <div class="item-content">
-          <div class="item-name">N.O.V.A. — FWD Platform Build</div>
-          <p class="item-tagline">Clean-sheet FWD competition build for autocross and hillclimb.</p>
-          <div class="item-meta">
-            <span>Motorsports / Fabrication</span>
-            <span>Teensy 4.1 · M9N GPS · LSM6DSO32 · MCP2515</span>
-            <span>2023 – Present</span>
+        <!-- ---------- N.O.V.A. ---------- -->
+        <div class="item">
+          <span class="item-label">N.O.V.A.</span>
+          <div class="item-content">
+            <div class="item-name">N.O.V.A. — FWD Platform Build</div>
+            <p class="item-tagline">Clean-sheet FWD competition build for autocross and hillclimb.</p>
+            <div class="item-meta">
+              <span>Motorsports / Fabrication</span>
+              <span>Teensy 4.1 · M9N GPS · LSM6DSO32 · MCP2515</span>
+              <span>2023 – Present</span>
+            </div>
+            <p class="item-desc">
+              The data logger platform is real and functional. The vehicle build is not — it lives in
+              research while the RX-8 and Miata serve as active competition platforms. Listed here because
+              "early-stage research with no car" is the honest status.
+            </p>
+            <div class="pm-block">
+              <div class="pm-label">Blocker</div>
+              <p class="pm-body">
+                Not dead — genuinely stalled on resources and sequencing. The telemetry stack gets real
+                testing on the existing fleet first, which is the correct order of operations. Comes off
+                this list when there's a chassis to put it in.
+              </p>
+            </div>
+            <div class="tag-row"><span class="status-tag tag-stalled">No Active Build</span></div>
           </div>
-          <p class="item-desc">The data logger platform is real and functional. The vehicle build is not — it lives in research while the RX-8 and Miata serve as active competition platforms. Listed here because "early-stage research with no car" is the honest status.</p>
-          <div class="pm-block">
-            <div class="pm-label">Blocker</div>
-            <p class="pm-body">Not dead — genuinely stalled on resources and sequencing. The telemetry stack gets real testing on the existing fleet first, which is the correct order of operations. Comes off this list when there's a chassis to put it in.</p>
-          </div>
-          <div class="tag-row"><span class="status-tag tag-stalled">No Active Build</span></div>
         </div>
+
+        <!-- ---------- DPAC Public Tool ---------- -->
+        <div class="item">
+          <span class="item-label">DPAC Public Tool</span>
+          <div class="item-content">
+            <div class="item-name">DPAC — Public Web Tool</div>
+            <p class="item-tagline">Drivetrain-Aware Performance Analytics Calculator, publicly accessible.</p>
+            <div class="item-meta">
+              <span>Web App / Motorsports</span>
+              <span>HTML · CSS · JS</span>
+              <span>2024 – Present</span>
+            </div>
+            <p class="item-desc">
+              The calculator exists and works. A polished public-facing interface does not. Normalization
+              tool for autocross and hillclimb that accounts for drivetrain config, tire classification,
+              elevation, and power-to-weight — an honest attempt to make lap time comparisons more meaningful
+              than PAX alone.
+            </p>
+            <div class="pm-block">
+              <div class="pm-label">Blocker</div>
+              <p class="pm-body">
+                The PAX critique writeup and elevation weighting model are both in progress — the public
+                tool is waiting on the research being stable enough to stand behind. Keeps getting
+                deprioritized behind active competition season work.
+              </p>
+              <ul class="pm-list">
+                <li>Core normalization formula: functional</li>
+                <li>FWD/RWD delta coefficients need more event data</li>
+                <li>PAX critique writeup in progress</li>
+                <li>Public release blocked on research stability</li>
+              </ul>
+            </div>
+            <div class="tag-row"><span class="status-tag tag-stalled">Waiting on Research</span></div>
+          </div>
+        </div>
+
+        <!-- ---------- AHS Scoring Platform ---------- -->
+        <div class="item">
+          <span class="item-label">AHS Scoring Platform</span>
+          <div class="item-content">
+            <div class="item-name">AHS — Full Scoring &amp; Results Platform</div>
+            <p class="item-tagline">A proper results platform for the Appalachian Hillclimb Series.</p>
+            <div class="item-meta">
+              <span>Web App / Motorsports</span>
+              <span>FishTankTech (TBD)</span>
+              <span>2024 – Present</span>
+            </div>
+            <p class="item-desc">
+              AHS runs on enthusiasm and spreadsheets. A real results platform with live scoring, class
+              breakdowns, and historical records has been scoped. FishTankTech is the obvious home for it.
+              Finding the time is the problem.
+            </p>
+            <div class="pm-block">
+              <div class="pm-label">Blocker</div>
+              <p class="pm-body">
+                Consistently deprioritized behind active competition season work. The spreadsheet solution
+                works well enough that urgency never quite tips over into action. Will get built eventually.
+              </p>
+            </div>
+            <div class="tag-row"><span class="status-tag tag-stalled">Scoped, Not Built</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION: FRAGMENTS — NEVER SHIPPED
+         ================================================================ -->
+    <section>
+      <div class="section-label">
+        <span class="accent-dot dot-fragment"></span>
+        <h2>Fragments — Never Shipped</h2>
       </div>
 
-      <div class="item">
-        <span class="item-label">DPAC Public Tool</span>
-        <div class="item-content">
-          <div class="item-name">DPAC — Public Web Tool</div>
-          <p class="item-tagline">Drivetrain-Aware Performance Analytics Calculator, publicly accessible.</p>
-          <div class="item-meta">
-            <span>Web App / Motorsports</span>
-            <span>HTML · CSS · JS</span>
-            <span>2024 – Present</span>
+      <div class="item-list">
+
+        <!-- ---------- Bob && Robert ---------- -->
+        <div class="item">
+          <span class="item-label">Bob &amp;&amp; Robert</span>
+          <div class="item-content">
+            <div class="item-name">Bob &amp;&amp; Robert — Live Archive</div>
+            <p class="item-desc">
+              The Cremean and De Lavergne virtual estate has a site placeholder and a clear vision. Building
+              a proper digital archive is contingent on the physical materials being organized first. The
+              domain exists. The content does not, yet.
+            </p>
+            <div class="tag-row"><span class="status-tag tag-fragment">Content First</span></div>
           </div>
-          <p class="item-desc">The calculator exists and works. A polished public-facing interface does not. Normalization tool for autocross and hillclimb that accounts for drivetrain config, tire classification, elevation, and power-to-weight — an honest attempt to make lap time comparisons more meaningful than PAX alone.</p>
-          <div class="pm-block">
-            <div class="pm-label">Blocker</div>
-            <p class="pm-body">The PAX critique writeup and elevation weighting model are both in progress — the public tool is waiting on the research being stable enough to stand behind. Keeps getting deprioritized behind active competition season work.</p>
-            <ul class="pm-list">
-              <li>Core normalization formula: functional</li>
-              <li>FWD/RWD delta coefficients need more event data</li>
-              <li>PAX critique writeup in progress</li>
-              <li>Public release blocked on research stability</li>
-            </ul>
+        </div>
+
+        <!-- ---------- Homelab Dashboard ---------- -->
+        <div class="item">
+          <span class="item-label">Homelab Dashboard</span>
+          <div class="item-content">
+            <div class="item-name">Homelab Dashboard — Ronnie</div>
+            <p class="item-desc">
+              A plain HTML dashboard over the Docker stack — no Homarr, no Heimdall, just a single
+              well-built static page with links and service status. Started twice; both times interrupted
+              by something more on fire. Still on the list.
+            </p>
+            <div class="tag-row"><span class="status-tag tag-fragment">Started Twice</span></div>
           </div>
-          <div class="tag-row"><span class="status-tag tag-stalled">Waiting on Research</span></div>
         </div>
+
       </div>
+    </section>
 
-      <div class="item">
-        <span class="item-label">AHS Scoring Platform</span>
-        <div class="item-content">
-          <div class="item-name">AHS — Full Scoring &amp; Results Platform</div>
-          <p class="item-tagline">A proper results platform for the Appalachian Hillclimb Series.</p>
-          <div class="item-meta">
-            <span>Web App / Motorsports</span>
-            <span>FishTankTech (TBD)</span>
-            <span>2024 – Present</span>
-          </div>
-          <p class="item-desc">AHS runs on enthusiasm and spreadsheets. A real results platform with live scoring, class breakdowns, and historical records has been scoped. FishTankTech is the obvious home for it. Finding the time is the problem.</p>
-          <div class="pm-block">
-            <div class="pm-label">Blocker</div>
-            <p class="pm-body">Consistently deprioritized behind active competition season work. The spreadsheet solution works well enough that urgency never quite tips over into action. Will get built eventually.</p>
-          </div>
-          <div class="tag-row"><span class="status-tag tag-stalled">Scoped, Not Built</span></div>
-        </div>
-      </div>
+    <!-- ================================================================
+         CLOSING
+         ================================================================ -->
+    <p class="closing">
+      "Nothing Is Ever Finished — Only Abandoned." The stuff on this page proved the quote.<br>
+      Things that are alive live at <a href="https://fisherarmstrong.netlify.app/now">/now</a>.
+    </p>
 
-    </div>
-  </section>
+  </div>
 
-  <!-- ═══════════════════════════════════ -->
-  <!-- FRAGMENTS -->
-  <!-- ═══════════════════════════════════ -->
-  <section>
-    <div class="section-label">
-      <span class="accent-dot dot-fragment"></span>
-      <h2>Fragments — Never Shipped</h2>
-    </div>
-
-    <div class="item-list">
-
-      <div class="item">
-        <span class="item-label">Bob &amp;&amp; Robert</span>
-        <div class="item-content">
-          <div class="item-name">Bob &amp;&amp; Robert — Live Archive</div>
-          <p class="item-desc">The Cremean and De Lavergne virtual estate has a site placeholder and a clear vision. Building a proper digital archive is contingent on the physical materials being organized first. The domain exists. The content does not, yet.</p>
-          <div class="tag-row"><span class="status-tag tag-fragment">Content First</span></div>
-        </div>
-      </div>
-
-      <div class="item">
-        <span class="item-label">Homelab Dashboard</span>
-        <div class="item-content">
-          <div class="item-name">Homelab Dashboard — Ronnie</div>
-          <p class="item-desc">A plain HTML dashboard over the Docker stack — no Homarr, no Heimdall, just a single well-built static page with links and service status. Started twice; both times interrupted by something more on fire. Still on the list.</p>
-          <div class="tag-row"><span class="status-tag tag-fragment">Started Twice</span></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <p class="closing">
-    "Nothing Is Ever Finished — Only Abandoned." The stuff on this page proved the quote.<br>
-    Things that are alive live at <a href="https://fisherarmstrong.netlify.app/now">/now</a>.
-  </p>
-
-</div>
-
-<footer>
-  © 2026 Fisher Armstrong &nbsp;·&nbsp; Built &amp; Maintained by @FishTankTech
-</footer>
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer>
+    © 2026 Fisher Armstrong &nbsp;·&nbsp; Built &amp; Maintained by @FishTankTech
+  </footer>
 
 </body>
 </html>

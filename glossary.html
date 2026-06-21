@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary — Fisher Armstrong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5efe4;
+    --paper-dark: #ece3d2;
+    --ink: #2b2622;
+    --ink-soft: #5a5248;
+    --amber: #c4801a;
+    --terracotta: #b5552f;
+    --line: #d8cbb0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+
+  header {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  header a.back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.4rem;
+    margin: 16px 0 8px;
+    color: var(--ink);
+  }
+
+  header p.sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--terracotta);
+    margin: 0;
+  }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px 96px;
+  }
+
+  .nav-rail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin-bottom: 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  .nav-rail a {
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--amber);
+  }
+
+  .nav-rail a:hover { color: var(--terracotta); }
+
+  .entry {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .entry.visible { opacity: 1; transform: translateY(0); }
+
+  .term {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .term .anchor-id {
+    font-size: 0.7rem;
+    color: var(--line);
+    font-weight: 400;
+  }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    background: var(--paper-dark);
+  }
+
+  .filter-rail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .filter-rail button {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .filter-rail button.active {
+    background: var(--amber);
+    color: var(--paper);
+    border-color: var(--amber);
+  }
+
+  .count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+  }
+
+  .pos {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0 0 8px;
+  }
+
+  .def {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1rem;
+  }
+
+  .aside {
+    margin: 8px 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--amber);
+    padding-left: 12px;
+  }
+
+  .entry a.ref {
+    color: var(--terracotta);
+    text-decoration: none;
+    border-bottom: 1px solid var(--terracotta);
+  }
+
+  .entry a.ref:hover { color: var(--amber); border-color: var(--amber); }
+
+  footer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="/">&larr; fisherarmstrong.com</a>
+  <h1>Glossary</h1>
+  <p class="sub">// terms defined on my terms. a key to the rest of the site.</p>
+</header>
+
+<main>
+  <div class="filter-rail" id="filterRail"></div>
+  <p class="count" id="countLabel"></p>
+  <nav class="nav-rail" id="navRail"></nav>
+  <div id="entries"></div>
+</main>
+
+<footer>
+  Last edited: check the commit log, not me. — Fisher Armstrong
+</footer>
+
+<script>
+  const terms = [
+    {
+      term: "#828Strong",
+      pos: "proper noun, documentary tag",
+      cat: "ventures",
+      def: "Hashtag and documentation effort tracking Hurricane Helene's impact on Western North Carolina. Started as a way to not forget. Became the seed for Activism Photography's broader mission.",
+      aside: "Not a slogan. A filing system for grief and recovery.",
+      link: { href: "https://activismphotography.netlify.app/", label: "Activism Photography" }
+    },
+    {
+      term: "Activism Motorsports",
+      pos: "venture",
+      cat: "ventures",
+      def: "Grassroots autocross, hillclimb, and time trial competition and research arm. Development, fabrication, and racing — occasionally good at all three.",
+      link: { href: "https://activismmotorsprts.netlify.app/", label: "ActivismMotorsports" }
+    },
+    {
+      term: "Activism Photography",
+      pos: "venture",
+      cat: "ventures",
+      def: "Documentary and motorsports photography practice. Emphasizes narrative depth, ethical representation, and treating images as historical record rather than content.",
+      link: { href: "https://activismphotography.netlify.app/", label: "Activism Photography" }
+    },
+    {
+      term: "Aisin C56/C59",
+      pos: "noun, transmission family",
+      cat: "hardware",
+      def: "Transmission unit family used in the Scion xB. The relevant donor part came off a Celica GT — the closest available compatible source after third-gear failure left the original parts-blocked.",
+      aside: "The kind of part number you only learn after something breaks."
+    },
+    {
+      term: "Anton / Barlow Condensed",
+      pos: "typefaces",
+      cat: "design",
+      def: "Display and condensed typefaces used in the Activism Motorsports design system, alongside IBM Plex Mono for technical/code-adjacent text."
+    },
+    {
+      term: "Appalachian Hillclimb Series",
+      pos: "proper noun, event series",
+      cat: "ventures",
+      def: "Regional hillclimb competition series organized in Appalachia. Includes event operations and timing systems built in-house.",
+      link: { href: "https://www.appalachianhillclimb.com/", label: "Appalachian Hillclimb Series" }
+    },
+    {
+      term: "BLTouch",
+      pos: "noun, hardware sensor",
+      cat: "hardware",
+      def: "Auto bed-leveling sensor installed on the Ender 3 (4.2.2 board). Standard fix for an inconsistent first layer."
+    },
+    {
+      term: "Bob && Robert",
+      pos: "proper noun, project",
+      cat: "ventures",
+      def: "Virtual estate and archive project for the Cremean and De Lavergne collection. The double ampersand is intentional — it's a concatenation, not a typo.",
+      aside: "The estate, concentrated.",
+      link: { href: "https://bobandrobert.netlify.app/", label: "Bob && Robert" }
+    },
+    {
+      term: "Bob Cremean",
+      pos: "proper noun, artist",
+      cat: "people",
+      def: "Sculptor whose work, including 'Studies For A Double Portrait,' is part of the Cremean/De Lavergne collection cataloged under Bob && Robert."
+    },
+    {
+      term: "darktable / digiKam",
+      pos: "software",
+      cat: "software",
+      def: "Open-source photography workflow tools used for RAW processing and asset management on Arch Linux, replacing proprietary Adobe equivalents."
+    },
+    {
+      term: "De Lavergne",
+      pos: "proper noun, estate name",
+      cat: "people",
+      def: "Second half of the Cremean/De Lavergne collection cataloged in Winston-Salem under the Bob && Robert project."
+    },
+    {
+      term: "Dexcom G7",
+      pos: "noun, medical device",
+      cat: "personal",
+      def: "Continuous glucose monitor. Daily-wear kit, not optional, been doing this for nearly a decade."
+    },
+    {
+      term: "Donnie",
+      pos: "proper noun, machine",
+      cat: "infrastructure",
+      def: "Primary desktop. Arch Linux, KDE Plasma. Migrated from Pop!_OS running on a 2017 iMac chassis."
+    },
+    {
+      term: "DPAC",
+      pos: "noun, abbreviation",
+      cat: "ventures",
+      def: "Driver Performance & Aggregate Coefficient — a scoring system developed for Activism Motorsports to quantify driver performance beyond raw lap time.",
+      link: { href: "https://activismmotorsprts.netlify.app/", label: "see it live on the AM site" }
+    },
+    {
+      term: "Durable software",
+      pos: "phrase, internal standard",
+      cat: "software",
+      def: "Software built to keep working with minimal intervention, favoring boring, well-understood tools over novelty.",
+      aside: "Systems that feel like a good idea in the moment — that's the joke and the warning."
+    },
+    {
+      term: "Electric yellow (#eeff00)",
+      pos: "color value",
+      cat: "design",
+      def: "Core accent color of the Activism Motorsports design token set, paired with near-black backgrounds. The aggressive counterpart to the personal site's warm paper palette."
+    },
+    {
+      term: "Ender 3",
+      pos: "noun, hardware",
+      cat: "hardware",
+      def: "3D printer (4.2.2 board, BLTouch). Resolved enclosure heat problems causing stringing and blobbing. The shop's primary prototyping tool."
+    },
+    {
+      term: "FishStix Creatives",
+      pos: "venture",
+      cat: "ventures",
+      def: "Graphic design and vinyl work. The lowercase-aesthetic, hands-on counterpart to the software ventures."
+    },
+    {
+      term: "FishStix Lawn Care && Landscaping",
+      pos: "proper noun, theoretical venture",
+      cat: "ventures",
+      def: "A branding exercise — a full site built for a lawn care business that doesn't exist, just to prove the design system could carry it."
+    },
+    {
+      term: "FishTankTech",
+      pos: "venture",
+      cat: "ventures",
+      def: "Software engineering, web platforms, data pipelines, and analytical tooling. The umbrella for most of what gets built.",
+      link: { href: "https://fishtanktech.netlify.app/", label: "FishTankTech" }
+    },
+    {
+      term: "FreeCAD",
+      pos: "software",
+      cat: "software",
+      def: "Open-source parametric CAD tool used for modeling fabrication parts before they hit the Ender 3 or the shop."
+    },
+    {
+      term: "IBM Plex Mono / Inter",
+      pos: "typefaces",
+      cat: "design",
+      def: "Core typefaces of fisherarmstrong.com — Plex Mono for technical/code-flavored text, Inter for body copy. Carried across most of the personal-site family of pages."
+    },
+    {
+      term: "input-remapper",
+      pos: "software",
+      cat: "software",
+      def: "Linux utility used to remap buttons on the Logitech MX Master 4. Status: in progress, not yet confirmed working. This entry will get smug if that ever changes."
+    },
+    {
+      term: "Klipper",
+      pos: "noun, 3D printer firmware",
+      cat: "software",
+      def: "Firmware investigated for the Ender 3, including a dead-end attempt to host it on an old Android phone — blocked by FRP and a hardware-locked bootloader."
+    },
+    {
+      term: "Mavis Tire incident",
+      pos: "phrase, repair history",
+      cat: "personal",
+      def: "The visit responsible for a steering angle sensor miscalibration and several loose fasteners on the Scion xB, which together produced a VSC/traction control fault.",
+      aside: "Filed under: things that should have been routine."
+    },
+    {
+      term: "Mountain Mule",
+      pos: "proper noun, client venture",
+      cat: "ventures",
+      def: "Junk removal business in the NC High Country. Built with a rugged, working-class aesthetic to match the actual work."
+    },
+    {
+      term: "MX Master 4 (M)",
+      pos: "noun, hardware",
+      cat: "hardware",
+      def: "Logitech mouse, current daily driver. See input-remapper for the unresolved subplot."
+    },
+    {
+      term: "N.O.V.A.",
+      pos: "proper noun, project (Project N.O.V.A.)",
+      cat: "ventures",
+      def: "Clean-sheet FWD competition vehicle build, currently in early development. Includes custom data logger hardware: Teensy 4.1, M9N GPS, LSM6DSO32 IMU, MCP2515 CAN bus."
+    },
+    {
+      term: "OrcaSlicer",
+      pos: "software",
+      cat: "software",
+      def: "Slicer software for the Ender 3. Replaced whatever came before it, the way slicers tend to."
+    },
+    {
+      term: "paru",
+      pos: "software",
+      cat: "software",
+      def: "AUR helper of choice on Arch. Used after hitting a yay/pacman -s flag bug that got worked around by installing a cached .pkg.tar.zst directly."
+    },
+    {
+      term: "Peak Design",
+      pos: "noun, brand",
+      cat: "hardware",
+      def: "Carry system used for the camera kit (Canon T3i and R6 Mk II). Straps, clips, bags — the part of photography nobody photographs."
+    },
+    {
+      term: "Pi-hole + Unbound",
+      pos: "noun, network stack",
+      cat: "infrastructure",
+      def: "DNS filtering and resolution stack running in Docker on Ronnie. Has been the subject of more than one upstream-misconfiguration debugging session."
+    },
+    {
+      term: "Professional do-er of things",
+      pos: "phrase, personal tagline",
+      cat: "personal",
+      def: "The honest version of a job title. Covers software, fabrication, photography, event ops, and whatever else needs doing."
+    },
+    {
+      term: "Resilient Body & Sole Therapy",
+      pos: "proper noun, client venture",
+      cat: "ventures",
+      def: "Massage therapy business in Hertford, NC, run by Fisher's aunt Jessica. Site built to match her actual practice, not a stock-photo version of one."
+    },
+    {
+      term: "Ronnie",
+      pos: "proper noun, machine",
+      cat: "infrastructure",
+      def: "Homelab server. Ubuntu 24.04. Runs the Docker stack — Pi-hole, Nextcloud, Jellyfin, the arr suite, Paperless-NGX, Immich, and whatever else accumulates."
+    },
+    {
+      term: "Scion xB (2008)",
+      pos: "noun, vehicle",
+      cat: "personal",
+      def: "Daily driver with a habit of overlapping mechanical issues — a third-gear transmission failure and, separately, a VSC/traction control fault from the Mavis Tire incident."
+    },
+    {
+      term: "TheFisherArmstrong",
+      pos: "proper noun, GitHub organization, Name",
+      cat: "infrastructure",
+      def: "My Personal Handle and "@" for almost everything."
+    },
+    {
+      term: "Studies For A Double Portrait",
+      pos: "proper noun, sculpture",
+      cat: "ventures",
+      def: "Bob Cremean sculpture used for a Pride Month social media push, with proceeds going to charity. The piece that put the Bob && Robert voice on public display first."
+    },
+    {
+      term: "Tandem t:slim X2",
+      pos: "noun, medical device",
+      cat: "personal",
+      def: "Insulin pump. Daily-wear kit, paired with the Dexcom G7."
+    },
+    {
+      term: "Teensy 4.1 / M9N / LSM6DSO32 / MCP2515",
+      pos: "noun, hardware components",
+      cat: "hardware",
+      def: "The data logger stack for Project N.O.V.A.: microcontroller, GPS module, IMU, and CAN bus interface, respectively. Four parts, one sensor brain."
+    },
+    {
+      term: "vfa",
+      pos: "noun, username",
+      cat: "infrastructure",
+      def: "Linux username across machines. Initials. Not an acronym for anything more interesting."
+    }
+  ];
+
+  const entriesEl = document.getElementById('entries');
+  const navEl = document.getElementById('navRail');
+  const filterEl = document.getElementById('filterRail');
+  const countEl = document.getElementById('countLabel');
+
+  terms.sort((a, b) => a.term.localeCompare(b.term));
+
+  const categories = ['all', ...new Set(terms.map(t => t.cat))];
+
+  function makeId(term) {
+    return 'term-' + term.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function render(filter) {
+    entriesEl.innerHTML = '';
+    navEl.innerHTML = '';
+    const visible = terms.filter(t => filter === 'all' || t.cat === filter);
+    countEl.textContent = `${visible.length} term${visible.length === 1 ? '' : 's'}${filter === 'all' ? '' : ' — ' + filter}`;
+
+    visible.forEach((t, i) => {
+      const id = makeId(t.term);
+
+      const navLink = document.createElement('a');
+      navLink.href = '#' + id;
+      navLink.textContent = t.term;
+      navEl.appendChild(navLink);
+
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.id = id;
+
+      div.innerHTML = `
+        <p class="term">${t.term} <span class="tag">${t.cat}</span> <span class="anchor-id">#${i + 1}</span></p>
+        <p class="pos">${t.pos}</p>
+        <p class="def">${t.def}</p>
+        ${t.aside ? `<p class="aside">${t.aside}</p>` : ''}
+        ${t.link ? `<p class="def" style="margin-top:8px;"><a class="ref" href="${t.link.href}" target="_blank" rel="noopener">${t.link.label} &rarr;</a></p>` : ''}
+      `;
+      entriesEl.appendChild(div);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.entry').forEach(el => observer.observe(el));
+  }
+
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.textContent = cat;
+    if (cat === 'all') btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-rail button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(cat);
+    });
+    filterEl.appendChild(btn);
+  });
+
+  render('all');
+</script>
+
+</body>
+</html>
