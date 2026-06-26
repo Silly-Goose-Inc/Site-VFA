@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EVs Aren't All Bad — 100 Miles in a Borrowed 2017 i3 REx</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A hundred miles in a borrowed 2017 BMW i3 REx, and what it actually solves versus what it doesn't, written from the driveway of a half-disassembled Scion xB.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:    #161616;
+  --paper:  #f4f1ea;
+  --muted:  #5c5c5c;
+  --muted-2:#8a8a8a;
+  --rule:   rgba(0,0,0,0.1);
+  --tech:   #2f6fb2;
+  --motor:  #c9a800;
+  --warn:   #b85c1a;
+  --dark:   #1c1c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 32px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.version {
+  position: fixed;
+  top: 14px; right: 14px;
+  background: var(--dark);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  z-index: 100;
+}
+
+.post-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 28px 0;
+}
+
+.breadcrumb {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 6px; opacity: 0.4; }
+
+.post-eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--motor);
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.1rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  max-width: 580px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--muted-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+}
+
+.post-meta-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+  flex-shrink: 0;
+}
+
+.post-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted);
+}
+
+.header-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+.post-body p {
+  font-size: 1rem;
+  line-height: 1.78;
+  margin-bottom: 1.4rem;
+  color: var(--ink);
+}
+
+.post-body h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2.8rem 0 0.9rem;
+  line-height: 1.3;
+}
+
+.post-body h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 2rem 0 0.7rem;
+}
+
+.callout {
+  border-left: 3px solid;
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 1.8rem 0;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.callout.warn  { border-color: var(--warn); background: rgba(184,92,26,0.07); }
+.callout.info  { border-color: var(--tech); background: rgba(47,111,178,0.07); }
+.callout.note  { border-color: var(--motor); background: rgba(201,168,0,0.07); }
+
+.callout-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.callout.warn .callout-label { color: var(--warn); }
+.callout.info .callout-label { color: var(--tech); }
+.callout.note .callout-label { color: #8a7300; }
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6rem 0;
+  font-size: 0.875rem;
+}
+
+.spec-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.spec-table td:first-child {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+  width: 40%;
+}
+
+.spec-table tr:last-child td { border-bottom: none; }
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="version">2026 - Thursday, June 25th</div>
+
+<div class="post-header">
+  <p class="breadcrumb">
+    <a href="../index.html">fisherarmstrong</a><span>/</span>
+    <a href="blog.html">blog</a><span>/</span>
+    evs-arent-all-bad-100-miles-in-a-borrowed-2017-i3-rex
+  </p>
+
+  <p class="post-eyebrow">First Drive</p>
+
+  <h1>EVs Aren't All Bad — 100 Miles in a Borrowed 2017 i3 REx</h1>
+
+  <div class="post-meta">
+    <span>June 25, 2026</span>
+    <span class="post-meta-dot"></span>
+    <span>Fisher Armstrong</span>
+    <span class="post-meta-dot"></span>
+    <span>~7 min read</span>
+  </div>
+
+  <div class="post-tags">
+    <span class="tag">EVs</span>
+    <span class="tag">BMW i3</span>
+    <span class="tag">Review</span>
+    <span class="tag">Second Car</span>
+    <span class="tag">Enthusiast Take</span>
+  </div>
+</div>
+
+<hr class="header-rule" style="max-width:680px;margin:0 auto;">
+
+<div class="post-body">
+
+  <h2>First Things First</h2>
+
+  <p>I think the biggest problem with how everybody talks about EVs right now is that the conversation never actually stays about the car. Somebody says "EV" and within about thirty seconds it's turned into a referendum on whether they're replacing gas cars, whether enthusiasts are doomed, whether manuals are going extinct, whether they're actually better for the environment when you factor in the battery, and eventually somebody brings up lithium mines or coal plants and at that point nobody's mind was ever going to get changed anyway, so what was the point.</p>
+
+  <p>I borrowed my Aunt's 2017 i3 REx last week (when <a href="the-xb-is-trying-to-kill-me.html">the xB tried to kill me</a>) and put about 100 miles on it, mostly just running it like I'd run any other errand car, and I came away thinking that whole argument misses the point.</p>
+
+  <p>This thing isn't trying to replace the xB. It's not trying to replace a project car, or anything I'd actually want to autocross, or even something I'd take on a real road trip. BMW built it to solve one pretty narrow problem, and somewhat annoyingly for somebody who'd rather wrench on something than baby it, it solves that problem really well.</p>
+
+  <p>Let's get the obvious thing out of the way first though: it is not the most fun car I've ever driven, not even close, and if you parked literally anything I actually enjoy driving next to it I wouldn't think twice about which one I was taking. But I think a lot of enthusiasts do themselves a disservice by acting like every car on the road needs to win that comparison, when in reality most cars spend almost all of their existence doing extremely unglamorous things. Sitting in traffic. Going to work. School runs. Grocery runs. The emergency Lowe's trip because every project apparently needs exactly one more bolt than you budgeted for. Sitting in a parking lot for two hours while you're inside somewhere and then quietly taking you home again without complaint.</p>
+
+  <p>The i3 is really, really good at all of that.</p>
+
+  <h2>About That Power</h2>
+
+  <p>What actually surprised me over those 100 miles wasn't anything dramatic, it was how restrained the thing feels once you put it in Eco Pro Plus or even regular Eco Pro. Everybody's been trained by modern EVs to expect instant torque and face-melting acceleration the second you touch the pedal, but this feels more like a room full of BMW engineers sat down and worked out the bare minimum horsepower required to merge onto the interstate without getting honked at, and then built the rest of the car backward from that number.</p>
+
+  <p>Eco Pro Plus especially is tame. You put your foot down and you get what I'd call polite enthusiasm, nothing more. Eco Pro wakes it up a little but not by much, and somewhere around mile thirty or so I started noticing something kind of funny about the whole experience, which is that you can just use all of it, all the time, and never feel like you're getting away with something. Even riding on tires that have clearly seen better years, there's no point where you're worried about traction. Floor it from a stop, mat it coming out of a corner, drive it with a lot less restraint than BMW probably had in mind, and the car just goes along with it without complaint. It never feels stressed. More importantly it never feels like you're one bad decision away from explaining yourself to an insurance adjuster, which honestly is more than I can say for some of the gas cars I've owned.</p>
+
+  <div class="callout info">
+    <div class="callout-label">Mode Breakdown</div>
+    <p>Eco Pro Plus is restrained almost to a fault. Eco Pro wakes it up slightly. Comfort gets closest to "typical EV" throttle response, but never tips into anything dramatic.</p>
+  </div>
+
+  <p>Comfort mode gets a little closer to what people picture when they hear the word EV. Throttle response wakes up, the torque gets more noticeable, around town it actually feels quick. Even then though it never turns into some secret Tesla hiding under a BMW badge, and I kind of appreciated that. There's no shortage of cars out there trying to be exciting. This one's just trying to be useful, and apparently those aren't always the same job.</p>
+
+  <h2>Who This Car Is Actually For</h2>
+
+  <p>Which gets me to what I think is really the point of the whole thing. In my head there are really three kinds of people who should be buying one of these.</p>
+
+  <p>The first is a high school or college kid with a short commute. Not everybody, obviously, if you're doing sixty or seventy miles each way this whole conversation is over before it starts. But a ten or fifteen mile commute each direction changes the math pretty fast, and these are sitting in the eight to ten thousand dollar range right now, which means you're spending less than a dollar a day getting to school and back, in a BMW, for roughly used Civic money. Not a sentence I expected to ever write.</p>
+
+  <p>The second, and I think honestly the one I keep coming back to, is somebody who already has another vehicle that can do the actual heavy lifting. Which, with the xB sitting half torn apart over the transmission and that whole steering angle sensor saga from the alignment shop, is probably why I've been thinking about this harder than I should be right now. Something that can handle road trips, hauling parts, dragging race tires and camera gear around, moving furniture, all the stuff you don't think about until you're standing in a parking lot realizing your daily driver can't fit what you just bought. As a second car the i3 starts making a stupid amount of sense. Need groceries, take the i3. Coffee run, i3. One bolt from the hardware store, i3. Picking up whatever part is going to fix the thing that's broken this week, also i3. Eventually you look up and realize the truck hasn't moved in four days because this weird little carbon-fiber egg quietly handled everything you actually needed done that week.</p>
+
+  <p>The third one I'd add, and maybe this is just me projecting onto a category that doesn't officially exist, is somebody who wants a cheap reliable beater they can leave parked outside a job site or a shop all day and not think about. A tradesperson, a contractor, anybody who needs something to commute in that isn't going to get keyed in a gravel lot and doesn't need to tow or haul lumber to begin with, something you can plug in at the end of the day and just ignore until tomorrow morning. At that point the fact that it happens to say BMW on it is almost beside the point, it's just appliance-grade transportation wearing a weird carbon-fiber shell.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Three Buyers</div>
+    <p>The short-commute student, the someone-with-a-second-vehicle, and the job-site beater owner. Three very different people, all served by the same narrow set of strengths.</p>
+  </div>
+
+  <h2>The Downsides</h2>
+
+  <p>There are a few, and I'll be honest, some of them are more annoying than they probably should be for a car this small.</p>
+
+  <h3>Cargo Space</h3>
+
+  <p>BMW technically gave it rear seats, but "included" is doing some heavy lifting there. Kids fit fine, small dogs fit fine, adults fit under protest. Once you start thinking about actually hauling gear in this thing it gets tight fast.</p>
+
+  <h3>Expense</h3>
+
+  <p>Probably not in the way most people assume. Mention BMW to somebody who isn't a car person and they immediately picture invoices with commas in them. The reality is a lot less dramatic than that. Most i3s on the market right now are 2016 or 2017 model years, old enough that there's really no good reason to keep going to a dealership for them. A decent local shop can handle most of it, and if you're reasonably handy yourself, which between the homelab, the Ender 3, and keeping the xB alive through two separate failures this year I'd like to think I qualify, a lot of it's manageable in your own driveway. That doesn't make it a Corolla. It's still a BMW, and parts will still occasionally show up priced in a way that makes you stare at the invoice for a second. But it's not the financial apocalypse people tend to imagine either.</p>
+
+  <h3>The Aftermarket</h3>
+
+  <p>It exists, and it's a deep one. Because there's no engine sitting in the middle of everything limiting what people can swap or modify, there's constantly something new showing up. Wheels, aero, suspension parts, charging upgrades, software tweaks, interior pieces, a dozen things you didn't even know existed until somebody posted them in a 2018 forum thread at two in the morning. For some people that's a great way to keep spending money forever. For other people that's the entire appeal. And plenty of owners just buy it, leave it exactly how BMW built it, and never think about any of that again. All three are fine ways to own one.</p>
+
+  <h3>Bespoke Everything</h3>
+
+  <p>Probably the most BMW downside of the bunch, is that almost everything about this car is awkwardly unique in a way that makes basic maintenance more annoying than it has any right to be. The wheel and tire sizing is the easiest example, staggered, oddball, narrow front and wide rear, the kind of size that maybe two manufacturers in the world even bother making. It's the same story with a handful of other parts on the car, stuff that would be a non-event on a normal Civic or Corolla turns into a "wait, who actually stocks this" situation purely because BMW decided a tiny carbon-fiber city car needed its own bespoke version of things every other manufacturer just buys off the shelf.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">Watch For</div>
+    <p>It's less that any individual part is expensive and more that it's inconvenient, and inconvenient has a funny way of turning into expensive right when you need a tire today and the only two companies that make your size are both backordered for six weeks.</p>
+  </div>
+
+  <h2>So, Are EVs Bad?</h2>
+
+  <p>Driving this thing for 100 miles didn't turn me into an EV evangelist, and it didn't make me want to sell off the gas cars the second the xB's transmission gets sorted. It didn't suddenly convince me the future had arrived or anything like that.</p>
+
+  <p>What it did do is convince me there are problems EVs solve really well, and pretending otherwise is just as silly as pretending they solve every problem there is. Right now, with a wagon sitting half-disassembled in the driveway and a growing list of short commutes and parts runs piling up, a cheap little second car that costs less than a dollar a day to run is sounding a lot less like a novelty than it did a month ago and a lot more like an actual plan.</p>
+
+  <p>The i3 isn't for everybody. Honestly most cars aren't. Miatas aren't for everybody, one-ton diesels aren't for everybody, manuals aren't for everybody. The i3 just occupies its own weird little niche, and after spending a hundred miles in one I think that niche is a lot bigger than most enthusiasts want to admit, and apparently big enough that it might include me.</p>
+
+  <div class="callout note">
+    <div class="callout-label">Bottom Line</div>
+    <p>So no, EVs aren't all bad. Some of them are just solving a different problem than we're used to asking cars to solve.</p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Fisher Armstrong <br>
+  Built &amp; Maintained by @FishTankTech
+</footer>
+
+</body>
+</html>
